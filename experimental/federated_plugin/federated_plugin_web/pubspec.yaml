@@ -6,7 +6,7 @@ publish_to: none
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
@@ -19,8 +19,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test: ^1.0.1
   pedantic: ^1.9.0
-  e2e: ^0.7.0
   mockito: ^4.1.1
 
 flutter:

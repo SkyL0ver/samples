@@ -5,13 +5,13 @@
 import 'package:flutter/material.dart';
 
 class TypewriterTween extends Tween<String> {
-  TypewriterTween({String begin = '', String end})
+  TypewriterTween({String begin = '', String end = ''})
       : super(begin: begin, end: end);
 
   @override
   String lerp(double t) {
-    var cutoff = (end.length * t).round();
-    return end.substring(0, cutoff);
+    var cutoff = (end!.length * t).round();
+    return end!.substring(0, cutoff);
   }
 }
 
@@ -26,8 +26,8 @@ class _CustomTweenDemoState extends State<CustomTweenDemo>
     with SingleTickerProviderStateMixin {
   static const Duration _duration = Duration(seconds: 3);
   static const String message = loremIpsum;
-  AnimationController controller;
-  Animation<String> animation;
+  late final AnimationController controller;
+  late final Animation<String> animation;
 
   @override
   void initState() {
@@ -71,27 +71,32 @@ class _CustomTweenDemoState extends State<CustomTweenDemo>
         ],
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Card(
-                child: Container(
+        child: Container(
+          alignment: Alignment.bottomCenter,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: AnimatedBuilder(
-                    animation: animation,
-                    builder: (context, child) {
-                      return Text('${animation.value}',
-                          style: TextStyle(
-                              fontSize: 16, fontFamily: 'SpecialElite'));
-                    },
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      child: AnimatedBuilder(
+                        animation: animation,
+                        builder: (context, child) {
+                          return Text('${animation.value}',
+                              style: TextStyle(
+                                  fontSize: 16, fontFamily: 'SpecialElite'));
+                        },
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

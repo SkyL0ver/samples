@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,7 +17,11 @@ const _pinkHue = 350.0;
 // Places API client used for Place Photos
 final _placesApiClient = GoogleMapsPlaces(apiKey: googleMapsApiKey);
 
-void main() => runApp(App());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
@@ -33,7 +38,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({@required this.title});
+  const HomePage({required this.title});
 
   final String title;
 
@@ -44,7 +49,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Stream<QuerySnapshot> _iceCreamStores;
+  late Stream<QuerySnapshot> _iceCreamStores;
   final Completer<GoogleMapController> _mapController = Completer();
 
   @override
@@ -75,13 +80,13 @@ class _HomePageState extends State<HomePage> {
           return Stack(
             children: [
               StoreMap(
-                documents: snapshot.data.docs,
+                documents: snapshot.data!.docs,
                 initialPosition: initialPosition,
                 mapController: _mapController,
               ),
               StoreCarousel(
                 mapController: _mapController,
-                documents: snapshot.data.docs,
+                documents: snapshot.data!.docs,
               ),
             ],
           );
@@ -93,9 +98,9 @@ class _HomePageState extends State<HomePage> {
 
 class StoreCarousel extends StatelessWidget {
   const StoreCarousel({
-    Key key,
-    @required this.documents,
-    @required this.mapController,
+    Key? key,
+    required this.documents,
+    required this.mapController,
   }) : super(key: key);
 
   final List<DocumentSnapshot> documents;
@@ -121,9 +126,9 @@ class StoreCarousel extends StatelessWidget {
 
 class StoreCarouselList extends StatelessWidget {
   const StoreCarouselList({
-    Key key,
-    @required this.documents,
-    @required this.mapController,
+    Key? key,
+    required this.documents,
+    required this.mapController,
   }) : super(key: key);
 
   final List<DocumentSnapshot> documents;
@@ -156,9 +161,9 @@ class StoreCarouselList extends StatelessWidget {
 
 class StoreListTile extends StatefulWidget {
   const StoreListTile({
-    Key key,
-    @required this.document,
-    @required this.mapController,
+    Key? key,
+    required this.document,
+    required this.mapController,
   }) : super(key: key);
 
   final DocumentSnapshot document;
@@ -234,10 +239,10 @@ class _StoreListTileState extends State<StoreListTile> {
 
 class StoreMap extends StatelessWidget {
   const StoreMap({
-    Key key,
-    @required this.documents,
-    @required this.initialPosition,
-    @required this.mapController,
+    Key? key,
+    required this.documents,
+    required this.initialPosition,
+    required this.mapController,
   }) : super(key: key);
 
   final List<DocumentSnapshot> documents;
@@ -260,8 +265,8 @@ class StoreMap extends StatelessWidget {
                   document['location'].longitude as double,
                 ),
                 infoWindow: InfoWindow(
-                  title: document['name'] as String,
-                  snippet: document['address'] as String,
+                  title: document['name'] as String?,
+                  snippet: document['address'] as String?,
                 ),
               ))
           .toSet(),

@@ -28,7 +28,7 @@ class MyCatalog extends StatelessWidget {
 class _AddButton extends StatelessWidget {
   final Item item;
 
-  const _AddButton({Key key, @required this.item}) : super(key: key);
+  const _AddButton({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _AddButton extends StatelessWidget {
       (cart) => cart.items.contains(item),
     );
 
-    return FlatButton(
+    return TextButton(
       onPressed: isInCart
           ? null
           : () {
@@ -54,7 +54,14 @@ class _AddButton extends StatelessWidget {
               var cart = context.read<CartModel>();
               cart.add(item);
             },
-      splashColor: Theme.of(context).primaryColor,
+      style: ButtonStyle(
+        overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+          if (states.contains(MaterialState.pressed)) {
+            return Theme.of(context).primaryColor;
+          }
+          return null; // Defer to the widget's default.
+        }),
+      ),
       child: isInCart ? Icon(Icons.check, semanticLabel: 'ADDED') : Text('ADD'),
     );
   }
@@ -79,7 +86,7 @@ class _MyAppBar extends StatelessWidget {
 class _MyListItem extends StatelessWidget {
   final int index;
 
-  _MyListItem(this.index, {Key key}) : super(key: key);
+  _MyListItem(this.index, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

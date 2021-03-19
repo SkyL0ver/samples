@@ -16,8 +16,8 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Testing Sample'),
         actions: <Widget>[
-          FlatButton.icon(
-            textColor: Colors.white,
+          TextButton.icon(
+            style: TextButton.styleFrom(primary: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, FavoritesPage.routeName);
             },
@@ -67,7 +67,7 @@ class ItemTile extends StatelessWidget {
             !favoritesList.items.contains(itemNo)
                 ? favoritesList.add(itemNo)
                 : favoritesList.remove(itemNo);
-            Scaffold.of(context).showSnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(favoritesList.items.contains(itemNo)
                     ? 'Added to favorites.'

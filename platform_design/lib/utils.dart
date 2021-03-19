@@ -1,3 +1,7 @@
+// Copyright 2020 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:math';
 
 import 'package:english_words/english_words.dart';
@@ -53,7 +57,7 @@ String generateRandomHeadline() {
   }
 
   assert(false, 'Failed to generate news headline');
-  return null;
+  return 'Failed to generate news headline';
 }
 
 List<MaterialColor> getRandomColors(int amount) {

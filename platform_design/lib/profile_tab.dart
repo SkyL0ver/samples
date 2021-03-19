@@ -1,3 +1,7 @@
+// Copyright 2020 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +109,11 @@ class ProfileTab extends StatelessWidget {
 }
 
 class PreferenceCard extends StatelessWidget {
-  const PreferenceCard({this.header, this.content, this.preferenceChoices});
+  const PreferenceCard({
+    required this.header,
+    required this.content,
+    required this.preferenceChoices,
+  });
 
   final String header;
   final String content;
@@ -173,7 +181,7 @@ class LogOutButton extends StatelessWidget {
   // ===========================================================================
 
   Widget _buildAndroid(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       child: Text('LOG OUT', style: TextStyle(color: Colors.red)),
       onPressed: () {
         // You should do something with the result of the dialog prompt in a
@@ -185,11 +193,11 @@ class LogOutButton extends StatelessWidget {
               title: Text('Log out?'),
               content: _logoutMessage,
               actions: [
-                FlatButton(
+                TextButton(
                   child: const Text('Got it'),
                   onPressed: () => Navigator.pop(context),
                 ),
-                FlatButton(
+                TextButton(
                   child: const Text('Cancel'),
                   onPressed: () => Navigator.pop(context),
                 ),

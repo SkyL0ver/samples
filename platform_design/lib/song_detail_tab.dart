@@ -1,3 +1,7 @@
+// Copyright 2020 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +12,11 @@ import 'widgets.dart';
 /// On Android, this page sits at the top of your app. On iOS, this page is on
 /// top of the songs tab's content but is below the tab bar itself.
 class SongDetailTab extends StatelessWidget {
-  const SongDetailTab({this.id, this.song, this.color});
+  const SongDetailTab({
+    required this.id,
+    required this.song,
+    required this.color,
+  });
 
   final int id;
   final String song;

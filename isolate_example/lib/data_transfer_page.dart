@@ -54,25 +54,28 @@ class DataTransferPage extends StatelessWidget {
           ),
           Column(
             children: [
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('Transfer Data to 2nd Isolate'),
-                color: (controller.runningTest == 1)
-                    ? Colors.blueAccent
-                    : Colors.grey[300],
+                style: ElevatedButton.styleFrom(
+                    primary: (controller.runningTest == 1)
+                        ? Colors.blueAccent
+                        : Colors.grey[300]),
                 onPressed: () => controller.generateRandomNumbers(false),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('Transfer Data with TransferableTypedData'),
-                color: (controller.runningTest == 2)
-                    ? Colors.blueAccent
-                    : Colors.grey[300],
+                style: ElevatedButton.styleFrom(
+                    primary: (controller.runningTest == 2)
+                        ? Colors.blueAccent
+                        : Colors.grey[300]),
                 onPressed: () => controller.generateRandomNumbers(true),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('Generate on 2nd Isolate'),
-                color: (controller.runningTest == 3)
-                    ? Colors.blueAccent
-                    : Colors.grey[300],
+                style: ElevatedButton.styleFrom(
+                    primary: (controller.runningTest == 3)
+                        ? Colors.blueAccent
+                        : Colors.grey[300]),
                 onPressed: controller.generateOnSecondaryIsolate,
               ),
             ],
@@ -84,16 +87,14 @@ class DataTransferPage extends StatelessWidget {
 }
 
 class DataTransferIsolateController extends ChangeNotifier {
-  Isolate _isolate;
-  ReceivePort _incomingReceivePort;
-  SendPort _outgoingSendPort;
+  Isolate? _isolate;
+  late ReceivePort _incomingReceivePort;
+  late SendPort _outgoingSendPort;
 
   final currentProgress = <String>[];
   int runningTest = 0;
   Stopwatch _timer = Stopwatch();
   double progressPercent = 0;
-
-  Isolate get newIsolate => _isolate;
 
   bool get running => runningTest != 0;
 
@@ -259,7 +260,7 @@ Iterable<int> createNums() sync* {
   }
 }
 
-Future<void> generateAndSum(
+Future<int> generateAndSum(
   SendPort callerSP,
   Iterable<int> iter,
   int length,

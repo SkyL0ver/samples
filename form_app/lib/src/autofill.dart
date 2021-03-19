@@ -31,6 +31,8 @@ class _AutofillDemoState extends State<AutofillDemo> {
                   ...[
                     Text('This sample demonstrates autofill. '),
                     TextFormField(
+                      autofocus: true,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: 'Jane',
                         labelText: 'First Name',
@@ -38,6 +40,7 @@ class _AutofillDemoState extends State<AutofillDemo> {
                       autofillHints: [AutofillHints.givenName],
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: 'Doe',
                         labelText: 'Last Name',
@@ -45,6 +48,8 @@ class _AutofillDemoState extends State<AutofillDemo> {
                       autofillHints: [AutofillHints.familyName],
                     ),
                     TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: 'foo@example.com',
                         labelText: 'Email',
@@ -52,6 +57,8 @@ class _AutofillDemoState extends State<AutofillDemo> {
                       autofillHints: [AutofillHints.email],
                     ),
                     TextField(
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: '(123) 456-7890',
                         labelText: 'Telephone',
@@ -59,6 +66,8 @@ class _AutofillDemoState extends State<AutofillDemo> {
                       autofillHints: <String>[AutofillHints.telephoneNumber],
                     ),
                     TextField(
+                      keyboardType: TextInputType.streetAddress,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: '123 4th Ave',
                         labelText: 'Street Address',
@@ -66,6 +75,8 @@ class _AutofillDemoState extends State<AutofillDemo> {
                       autofillHints: <String>[AutofillHints.streetAddressLine1],
                     ),
                     TextField(
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: '12345',
                         labelText: 'Postal Code',
@@ -73,6 +84,7 @@ class _AutofillDemoState extends State<AutofillDemo> {
                       autofillHints: <String>[AutofillHints.postalCode],
                     ),
                     TextField(
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: 'United States',
                         labelText: 'Country',
@@ -80,6 +92,7 @@ class _AutofillDemoState extends State<AutofillDemo> {
                       autofillHints: <String>[AutofillHints.countryName],
                     ),
                     TextField(
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: '1',
                         labelText: 'Country Code',

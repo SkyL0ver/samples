@@ -1,3 +1,7 @@
+// Copyright 2020 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +22,9 @@ class NewsTab extends StatefulWidget {
 class _NewsTabState extends State<NewsTab> {
   static const _itemsLength = 20;
 
-  List<Color> colors;
-  List<String> titles;
-  List<String> contents;
+  late final List<Color> colors;
+  late final List<String> titles;
+  late final List<String> contents;
 
   @override
   void initState() {
@@ -32,8 +36,6 @@ class _NewsTabState extends State<NewsTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= _itemsLength) return null;
-
     return SafeArea(
       top: false,
       bottom: false,
@@ -97,6 +99,7 @@ class _NewsTabState extends State<NewsTab> {
       ),
       body: Container(
         child: ListView.builder(
+          itemCount: _itemsLength,
           itemBuilder: _listBuilder,
         ),
       ),
@@ -107,6 +110,7 @@ class _NewsTabState extends State<NewsTab> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(),
       child: ListView.builder(
+        itemCount: _itemsLength,
         itemBuilder: _listBuilder,
       ),
     );
