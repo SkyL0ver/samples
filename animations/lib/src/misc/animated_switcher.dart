@@ -23,6 +23,7 @@ Widget generateContainer(int keyCount) => Container(
     );
 
 class AnimatedSwitcherDemo extends StatefulWidget {
+  const AnimatedSwitcherDemo({Key? key}) : super(key: key);
   static String routeName = '/basics/10_animated_switcher';
 
   @override
@@ -44,7 +45,7 @@ class _AnimatedSwitcherDemoState extends State<AnimatedSwitcherDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AnimatedSwitcher'),
+        title: const Text('AnimatedSwitcher'),
         actions: [
           MaterialButton(
             onPressed: () => setState(
@@ -63,7 +64,7 @@ class _AnimatedSwitcherDemoState extends State<AnimatedSwitcherDemo> {
         // with a given transition. You can change the transitions by using
         // transitionBuilder property.
         child: AnimatedSwitcher(
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           child: container,
           transitionBuilder: (child, animation) => ScaleTransition(
             child: child,

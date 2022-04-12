@@ -5,13 +5,14 @@
 import 'package:flutter/material.dart';
 
 class HeroAnimationDemo extends StatelessWidget {
+  const HeroAnimationDemo({Key? key}) : super(key: key);
   static const String routeName = '/misc/hero_animation';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hero Animation'),
+        title: const Text('Hero Animation'),
       ),
       body: GestureDetector(
         child: Hero(
@@ -21,14 +22,16 @@ class HeroAnimationDemo extends StatelessWidget {
             color: Colors.grey.shade300,
           ),
         ),
-        onTap: () => Navigator.of(context)
-            .push<void>(MaterialPageRoute(builder: (context) => HeroPage())),
+        onTap: () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (context) => const HeroPage())),
       ),
     );
   }
 }
 
 class HeroPage extends StatelessWidget {
+  const HeroPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +57,12 @@ StatelessWidget _createHeroContainer({
   return Container(
     height: size,
     width: size,
-    padding: EdgeInsets.all(10.0),
-    margin: size < 100.0 ? EdgeInsets.all(10.0) : EdgeInsets.all(0),
+    padding: const EdgeInsets.all(10.0),
+    margin: size < 100.0 ? const EdgeInsets.all(10.0) : const EdgeInsets.all(0),
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       color: color,
     ),
-    child: FlutterLogo(),
+    child: const FlutterLogo(),
   );
 }

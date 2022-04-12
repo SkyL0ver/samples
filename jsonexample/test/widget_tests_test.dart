@@ -4,14 +4,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jsonexample/dart_convert/converted_simple_object.dart';
 import 'package:jsonexample/dart_convert/converted_complex_object.dart';
+import 'package:jsonexample/dart_convert/converted_simple_object.dart';
 import 'package:jsonexample/widgets.dart';
 
 void main() {
   group('SimpleObjectView widget test', () {
     testWidgets('Typical object is displayed correctly', (tester) async {
-      final simpleObject = ConvertedSimpleObject(
+      const simpleObject = ConvertedSimpleObject(
         aString: 'Blah, blah, blah',
         anInt: 1,
         aDouble: 1.0,
@@ -21,8 +21,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: SimpleObjectView(simpleObject),
+        const MaterialApp(
+          home: SimpleObjectView(simpleObject: simpleObject),
         ),
       );
 
@@ -35,7 +35,7 @@ void main() {
     });
 
     testWidgets('Empty lists are displayed as brackets', (tester) async {
-      final simpleObject = ConvertedSimpleObject(
+      const simpleObject = ConvertedSimpleObject(
         aString: 'Blah, blah, blah',
         anInt: 1,
         aDouble: 1.0,
@@ -45,8 +45,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: SimpleObjectView(simpleObject),
+        const MaterialApp(
+          home: SimpleObjectView(simpleObject: simpleObject),
         ),
       );
 
@@ -54,7 +54,7 @@ void main() {
     });
 
     testWidgets('Null values are displayed as NULL', (tester) async {
-      final simpleObject = ConvertedSimpleObject(
+      const simpleObject = ConvertedSimpleObject(
         aString: null,
         anInt: null,
         aDouble: null,
@@ -64,8 +64,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: SimpleObjectView(simpleObject),
+        const MaterialApp(
+          home: SimpleObjectView(simpleObject: simpleObject),
         ),
       );
 
@@ -75,7 +75,7 @@ void main() {
 
   group('ComplexObjectView widget test', () {
     testWidgets('Typical object is displayed correctly', (tester) async {
-      final complexObject = ConvertedComplexObject(
+      const complexObject = ConvertedComplexObject(
         aString: 'Blah, blah, blah',
         anInt: 1,
         aDouble: 1.0,
@@ -119,8 +119,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ComplexObjectView(complexObject),
+        const MaterialApp(
+          home: ComplexObjectView(complexObject: complexObject),
         ),
       );
 
@@ -142,7 +142,7 @@ void main() {
     });
 
     testWidgets('Empty lists are displayed as brackets', (tester) async {
-      final complexObject = ConvertedComplexObject(
+      const complexObject = ConvertedComplexObject(
         aString: 'Blah, blah, blah',
         anInt: 1,
         aDouble: 1.0,
@@ -161,8 +161,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ComplexObjectView(complexObject),
+        const MaterialApp(
+          home: ComplexObjectView(complexObject: complexObject),
         ),
       );
 
@@ -170,7 +170,7 @@ void main() {
     });
 
     testWidgets('Null values are displayed as NULL', (tester) async {
-      final complexObject = ConvertedComplexObject(
+      const complexObject = ConvertedComplexObject(
         aString: null,
         anInt: null,
         aDouble: null,
@@ -182,8 +182,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ComplexObjectView(complexObject),
+        const MaterialApp(
+          home: ComplexObjectView(complexObject: complexObject),
         ),
       );
 

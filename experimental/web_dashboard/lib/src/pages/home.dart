@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../widgets/dialogs.dart';
@@ -12,9 +14,10 @@ import 'entries.dart';
 class HomePage extends StatefulWidget {
   final VoidCallback onSignOut;
 
-  HomePage({
-    @required this.onSignOut,
-  });
+  const HomePage({
+    required this.onSignOut,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -26,19 +29,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
-      title: Text('Dashboard App'),
+      title: const Text('Dashboard App'),
       actions: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
             style: TextButton.styleFrom(primary: Colors.white),
             onPressed: () => _handleSignOut(),
-            child: Text('Sign Out'),
+            child: const Text('Sign Out'),
           ),
         )
       ],
       currentIndex: _pageIndex,
-      destinations: [
+      destinations: const [
         AdaptiveScaffoldDestination(title: 'Home', icon: Icons.home),
         AdaptiveScaffoldDestination(title: 'Entries', icon: Icons.list),
         AdaptiveScaffoldDestination(title: 'Settings', icon: Icons.settings),
@@ -61,7 +64,7 @@ class _HomePageState extends State<HomePage> {
 
   FloatingActionButton _buildFab(BuildContext context) {
     return FloatingActionButton(
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
       onPressed: () => _handleFabPressed(),
     );
   }
@@ -70,7 +73,7 @@ class _HomePageState extends State<HomePage> {
     if (_pageIndex == 0) {
       showDialog<NewCategoryDialog>(
         context: context,
-        builder: (context) => NewCategoryDialog(),
+        builder: (context) => const NewCategoryDialog(),
       );
       return;
     }
@@ -78,35 +81,35 @@ class _HomePageState extends State<HomePage> {
     if (_pageIndex == 1) {
       showDialog<NewEntryDialog>(
         context: context,
-        builder: (context) => NewEntryDialog(),
+        builder: (context) => const NewEntryDialog(),
       );
       return;
     }
   }
 
   Future<void> _handleSignOut() async {
-    var shouldSignOut = await showDialog<bool>(
+    var shouldSignOut = await (showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Are you sure you want to sign out?'),
+        title: const Text('Are you sure you want to sign out?'),
         actions: [
           TextButton(
-            child: Text('No'),
+            child: const Text('No'),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: Text('Yes'),
+            child: const Text('Yes'),
             onPressed: () {
               Navigator.of(context).pop(true);
             },
           ),
         ],
       ),
-    );
+    ));
 
-    if (!shouldSignOut) {
+    if (shouldSignOut == null || !shouldSignOut) {
       return;
     }
 
@@ -115,13 +118,13 @@ class _HomePageState extends State<HomePage> {
 
   static Widget _pageAtIndex(int index) {
     if (index == 0) {
-      return DashboardPage();
+      return const DashboardPage();
     }
 
     if (index == 1) {
-      return EntriesPage();
+      return const EntriesPage();
     }
 
-    return Center(child: Text('Settings page'));
+    return const Center(child: Text('Settings page'));
   }
 }

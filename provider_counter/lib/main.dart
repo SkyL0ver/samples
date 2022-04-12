@@ -2,10 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:window_size/window_size.dart';
 
 void main() {
+  setupWindow();
   runApp(
     // Provide the model to all widgets within the app. We're using
     // ChangeNotifierProvider because that's a simple way to rebuild
@@ -18,9 +23,28 @@ void main() {
       // can own Counter's lifecycle, making sure to call `dispose`
       // when not needed anymore.
       create: (context) => Counter(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
+}
+
+const double windowWidth = 360;
+const double windowHeight = 640;
+
+void setupWindow() {
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    WidgetsFlutterBinding.ensureInitialized();
+    setWindowTitle('Provider Counter');
+    setWindowMinSize(const Size(windowWidth, windowHeight));
+    setWindowMaxSize(const Size(windowWidth, windowHeight));
+    getCurrentScreen().then((screen) {
+      setWindowFrame(Rect.fromCenter(
+        center: screen!.frame.center,
+        width: windowWidth,
+        height: windowHeight,
+      ));
+    });
+  }
 }
 
 /// Simplest possible model, with just one field.
@@ -37,6 +61,8 @@ class Counter with ChangeNotifier {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,23 +70,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Demo Home Page'),
+        title: const Text('Flutter Demo Home Page'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('You have pushed the button this many times:'),
+          children: [
+            const Text('You have pushed the button this many times:'),
             // Consumer looks for an ancestor Provider widget
             // and retrieves its model (Counter, in this case).
             // Then it uses that model to build widgets, and will trigger
@@ -96,7 +124,7 @@ class MyHomePage extends StatelessWidget {
           counter.increment();
         },
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

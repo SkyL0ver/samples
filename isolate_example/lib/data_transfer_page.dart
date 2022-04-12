@@ -20,16 +20,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DataTransferPageStarter extends StatelessWidget {
+  const DataTransferPageStarter({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => DataTransferIsolateController(),
-      child: DataTransferPage(),
+      child: const DataTransferPage(),
     );
   }
 }
 
 class DataTransferPage extends StatelessWidget {
+  const DataTransferPage({Key? key}) : super(key: key);
+
   @override
   Widget build(context) {
     final controller = Provider.of<DataTransferIsolateController>(context);
@@ -43,13 +47,13 @@ class DataTransferPage extends StatelessWidget {
               'Number Generator Progress',
               style: Theme.of(context).textTheme.headline6,
             ),
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
           ),
           LinearProgressIndicator(
             value: controller.progressPercent,
             backgroundColor: Colors.grey[200],
           ),
-          Expanded(
+          const Expanded(
             child: RunningList(),
           ),
           Column(
@@ -193,6 +197,8 @@ class DataTransferIsolateController extends ChangeNotifier {
 }
 
 class RunningList extends StatelessWidget {
+  const RunningList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final progress =
@@ -213,7 +219,7 @@ class RunningList extends StatelessWidget {
                 ),
                 color: Colors.lightGreenAccent,
               ),
-              Divider(
+              const Divider(
                 color: Colors.blue,
                 height: 3,
               ),

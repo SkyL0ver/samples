@@ -12,21 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:window_size/window_size.dart';
 
 import 'data_transfer_page.dart';
 import 'infinite_process_page.dart';
 import 'performance_page.dart';
 
 void main() {
+  setupWindow();
   runApp(
-    MaterialApp(
+    const MaterialApp(
       home: HomePage(),
     ),
   );
 }
 
+const double windowWidth = 1024;
+const double windowHeight = 800;
+
+void setupWindow() {
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    WidgetsFlutterBinding.ensureInitialized();
+    setWindowTitle('Isolate Example');
+    setWindowMinSize(const Size(windowWidth, windowHeight));
+  }
+}
+
 class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +52,7 @@ class HomePage extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            bottom: TabBar(
+            bottom: const TabBar(
               tabs: [
                 Tab(
                   icon: Icon(Icons.flash_on),
@@ -50,9 +68,9 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            title: Text('Isolate Example'),
+            title: const Text('Isolate Example'),
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               PerformancePage(),
               InfiniteProcessPageStarter(),

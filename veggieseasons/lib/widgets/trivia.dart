@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:veggieseasons/data/app_state.dart';
 import 'package:veggieseasons/data/veggie.dart';
@@ -8,10 +7,10 @@ import 'package:veggieseasons/styles.dart';
 /// Presents a series of trivia questions about a particular widget, and tracks
 /// the user's score.
 class TriviaView extends StatefulWidget {
-  final int id;
-  final String restorationId;
+  final int? id;
+  final String? restorationId;
 
-  const TriviaView({this.id, this.restorationId});
+  const TriviaView({this.id, this.restorationId, Key? key}) : super(key: key);
 
   @override
   _TriviaViewState createState() => _TriviaViewState();
@@ -26,10 +25,10 @@ enum PlayerStatus {
 
 class _TriviaViewState extends State<TriviaView> with RestorationMixin {
   /// Current app state. This is used to fetch veggie data.
-  AppState appState;
+  late AppState appState;
 
   /// The veggie trivia about which to show.
-  Veggie veggie;
+  late Veggie veggie;
 
   /// Index of the current trivia question.
   RestorableInt triviaIndex = RestorableInt(0);
@@ -45,10 +44,10 @@ class _TriviaViewState extends State<TriviaView> with RestorationMixin {
       _RestorablePlayerStatus(PlayerStatus.readyToAnswer);
 
   @override
-  String get restorationId => widget.restorationId;
+  String? get restorationId => widget.restorationId;
 
   @override
-  void restoreState(RestorationBucket oldBucket, bool initialRestore) {
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
     registerForRestoration(triviaIndex, 'index');
     registerForRestoration(score, 'score');
     registerForRestoration(status, 'status');
@@ -135,7 +134,7 @@ class _TriviaViewState extends State<TriviaView> with RestorationMixin {
             'All done!',
             style: Styles.triviaFinishedTitleText(themeData),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text('You answered', style: themeData.textTheme.textStyle),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -157,9 +156,9 @@ class _TriviaViewState extends State<TriviaView> with RestorationMixin {
             ],
           ),
           Text('questions correctly!', style: themeData.textTheme.textStyle),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           CupertinoButton(
-            child: Text('Try Again'),
+            child: const Text('Try Again'),
             onPressed: () => _resetGame(),
           ),
         ],
@@ -173,12 +172,12 @@ class _TriviaViewState extends State<TriviaView> with RestorationMixin {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             currentTrivia.question,
             style: CupertinoTheme.of(context).textTheme.textStyle,
           ),
-          SizedBox(height: 32),
+          const SizedBox(height: 32),
           for (int i = 0; i < currentTrivia.answers.length; i++)
             Padding(
               padding: const EdgeInsets.all(8),
@@ -209,9 +208,9 @@ class _TriviaViewState extends State<TriviaView> with RestorationMixin {
                 : 'Sorry, that wasn\'t the right answer.',
             style: CupertinoTheme.of(context).textTheme.textStyle,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           CupertinoButton(
-            child: Text('Next Question'),
+            child: const Text('Next Question'),
             onPressed: () => setState(() {
               triviaIndex.value++;
               status.value = PlayerStatus.readyToAnswer;
@@ -234,7 +233,7 @@ class _RestorablePlayerStatus extends RestorableValue<PlayerStatus> {
   }
 
   @override
-  PlayerStatus fromPrimitives(Object data) {
+  PlayerStatus fromPrimitives(Object? data) {
     return PlayerStatus.values[data as int];
   }
 
@@ -244,7 +243,7 @@ class _RestorablePlayerStatus extends RestorableValue<PlayerStatus> {
   }
 
   @override
-  void didUpdateValue(PlayerStatus oldValue) {
+  void didUpdateValue(PlayerStatus? oldValue) {
     notifyListeners();
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 // Refer to the AnimatedWidget docs here - https://api.flutter.dev/flutter/widgets/AnimatedWidget-class.html
 // for examples of other common animated widgets.
 class FadeTransitionDemo extends StatefulWidget {
+  const FadeTransitionDemo({Key? key}) : super(key: key);
   static const String routeName = '/basics/fade_transition';
 
   @override
@@ -24,7 +25,7 @@ class _FadeTransitionDemoState extends State<FadeTransitionDemo>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
 
     _curve = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
@@ -45,24 +46,24 @@ class _FadeTransitionDemoState extends State<FadeTransitionDemo>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Fade Transition',
         ),
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             FadeTransition(
               opacity: _animation,
-              child: Icon(
+              child: const Icon(
                 Icons.star,
                 color: Colors.amber,
                 size: 300,
               ),
             ),
             ElevatedButton(
-              child: Text('animate'),
+              child: const Text('animate'),
               onPressed: () => setState(() {
                 _controller.animateTo(1.0).then<TickerFuture>(
                     (value) => _controller.animateBack(0.0));

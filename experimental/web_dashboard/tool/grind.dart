@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 import 'dart:convert';
 import 'dart:io';
-import 'package:path/path.dart' as path;
 
 import 'package:grinder/grinder.dart';
+import 'package:path/path.dart' as path;
 
 void main(List<String> args) => grind(args);
 
@@ -95,7 +95,7 @@ Stream<File> _filesWithoutCopyright() async* {
     var firstThreeLines = await file
         .openRead()
         .transform(utf8.decoder)
-        .transform(LineSplitter())
+        .transform(const LineSplitter())
         .take(3)
         .fold<String>('', (previous, element) {
       if (previous == '') return element;

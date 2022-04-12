@@ -7,13 +7,15 @@ import 'package:provider/provider.dart';
 import 'package:testing_app/models/favorites.dart';
 
 class FavoritesPage extends StatelessWidget {
-  static String routeName = '/favorites_page';
+  static const routeName = '/favorites_page';
+
+  const FavoritesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorites'),
+        title: const Text('Favorites'),
       ),
       body: Consumer<Favorites>(
         builder: (context, value, child) => value.items.isNotEmpty
@@ -23,7 +25,7 @@ class FavoritesPage extends StatelessWidget {
                 itemBuilder: (context, index) =>
                     FavoriteItemTile(value.items[index]),
               )
-            : Center(
+            : const Center(
                 child: Text('No favorites added.'),
               ),
       ),
@@ -34,9 +36,7 @@ class FavoritesPage extends StatelessWidget {
 class FavoriteItemTile extends StatelessWidget {
   final int itemNo;
 
-  const FavoriteItemTile(
-    this.itemNo,
-  );
+  const FavoriteItemTile(this.itemNo, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +52,11 @@ class FavoriteItemTile extends StatelessWidget {
         ),
         trailing: IconButton(
           key: Key('remove_icon_$itemNo'),
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () {
-            Provider.of<Favorites>(context, listen: false).remove(itemNo);
+            context.read<Favorites>().remove(itemNo);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('Removed from favorites.'),
                 duration: Duration(seconds: 1),
               ),

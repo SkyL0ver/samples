@@ -2,22 +2,48 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:window_size/window_size.dart';
 
 import 'src/catalog.dart';
 import 'src/item_tile.dart';
 
 void main() {
-  runApp(MyApp());
+  setupWindow();
+  runApp(const MyApp());
+}
+
+const double windowWidth = 480;
+const double windowHeight = 854;
+
+void setupWindow() {
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    WidgetsFlutterBinding.ensureInitialized();
+    setWindowTitle('Infinite List');
+    setWindowMinSize(const Size(windowWidth, windowHeight));
+    setWindowMaxSize(const Size(windowWidth, windowHeight));
+    getCurrentScreen().then((screen) {
+      setWindowFrame(Rect.fromCenter(
+        center: screen!.frame.center,
+        width: windowWidth,
+        height: windowHeight,
+      ));
+    });
+  }
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Catalog>(
       create: (context) => Catalog(),
-      child: MaterialApp(
+      child: const MaterialApp(
         title: 'Infinite List Sample',
         home: MyHomePage(),
       ),
@@ -26,11 +52,13 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Infinite List Sample'),
+        title: const Text('Infinite List Sample'),
       ),
       body: Selector<Catalog, int?>(
         // Selector is a widget from package:provider. It allows us to listen
@@ -54,7 +82,7 @@ class MyHomePage extends StatelessWidget {
             var item = catalog.getByIndex(index);
 
             if (item.isLoading) {
-              return LoadingItemTile();
+              return const LoadingItemTile();
             }
 
             return ItemTile(item: item);

@@ -3,11 +3,13 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+
 import 'api_key.dart';
 
 // Center of the Google Map
@@ -20,10 +22,12 @@ final _placesApiClient = GoogleMapsPlaces(apiKey: googleMapsApiKey);
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,8 +42,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({required this.title});
-
+  const HomePage({required this.title, Key? key}) : super(key: key);
   final String title;
 
   @override
@@ -74,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData) {
-            return Center(child: const Text('Loading...'));
+            return const Center(child: Text('Loading...'));
           }
 
           return Stack(
@@ -209,7 +212,7 @@ class _StoreListTileState extends State<StoreListTile> {
     return ListTile(
       title: Text(widget.document['name'] as String),
       subtitle: Text(widget.document['address'] as String),
-      leading: Container(
+      leading: SizedBox(
         width: 100,
         height: 100,
         child: _placePhotoUrl.isNotEmpty

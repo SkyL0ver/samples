@@ -2,13 +2,17 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show DeviceOrientation, SystemChrome;
 import 'package:provider/provider.dart';
 import 'package:veggieseasons/data/app_state.dart';
 import 'package:veggieseasons/data/preferences.dart';
 import 'package:veggieseasons/screens/home.dart';
 import 'package:veggieseasons/styles.dart';
+import 'package:window_size/window_size.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,16 +20,37 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  setupWindow();
 
   runApp(
-    RootRestorationScope(
+    const RootRestorationScope(
       restorationId: 'root',
       child: VeggieApp(),
     ),
   );
 }
 
+const double windowWidth = 480;
+const double windowHeight = 854;
+
+void setupWindow() {
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    setWindowTitle('Veggie Seasons');
+    setWindowMinSize(const Size(windowWidth, windowHeight));
+    setWindowMaxSize(const Size(windowWidth, windowHeight));
+    getCurrentScreen().then((screen) {
+      setWindowFrame(Rect.fromCenter(
+        center: screen!.frame.center,
+        width: windowWidth,
+        height: windowHeight,
+      ));
+    });
+  }
+}
+
 class VeggieApp extends StatefulWidget {
+  const VeggieApp({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _VeggieAppState();
 }
@@ -37,7 +62,7 @@ class _VeggieAppState extends State<VeggieApp> with RestorationMixin {
   String get restorationId => 'wrapper';
 
   @override
-  void restoreState(RestorationBucket oldBucket, bool initialRestore) {
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
     registerForRestoration(_appState, 'state');
   }
 
@@ -61,7 +86,7 @@ class _VeggieAppState extends State<VeggieApp> with RestorationMixin {
       child: CupertinoApp(
         theme: Styles.veggieThemeData,
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(restorationId: 'home'),
+        home: const HomeScreen(restorationId: 'home'),
         restorationScopeId: 'app',
       ),
     );
@@ -75,7 +100,7 @@ class _RestorableAppState extends RestorableListenable<AppState> {
   }
 
   @override
-  AppState fromPrimitives(Object data) {
+  AppState fromPrimitives(Object? data) {
     final appState = AppState();
     final favorites = (data as List<dynamic>).cast<int>();
     for (var id in favorites) {

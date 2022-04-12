@@ -9,7 +9,7 @@ import 'package:infinitelist/main.dart';
 
 void main() {
   testWidgets('Infinite list smoke test', (tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
     const loadingDuration = Duration(milliseconds: 500);
 
@@ -25,7 +25,7 @@ void main() {
     expect(find.text('Color #1'), findsOneWidget);
 
     // Flinging up quickly (i.e. scrolling down).
-    await tester.fling(find.byType(ListView), Offset(0, -2000), 5000);
+    await tester.fling(find.byType(ListView), const Offset(0, -2000), 5000);
 
     // As we scroll down, we should see more items loading.
     expect(find.text('...'), findsWidgets);

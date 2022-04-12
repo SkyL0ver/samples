@@ -12,14 +12,15 @@ void main() {
     var petList = <Map>[];
 
     setUpAll(() {
-      BasicMessageChannel<dynamic>('jsonMessageCodecDemo', JSONMessageCodec())
+      const BasicMessageChannel<dynamic>(
+              'jsonMessageCodecDemo', JSONMessageCodec())
           .setMockMessageHandler((dynamic message) async {
         petList.add(message as Map);
       });
     });
 
     testWidgets('Enter pet details', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: AddPetDetails()));
+      await tester.pumpWidget(const MaterialApp(home: AddPetDetails()));
 
       // Enter the breed of cat.
       await tester.enterText(find.byType(TextField), 'Persian');

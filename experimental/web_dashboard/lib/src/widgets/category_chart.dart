@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:flutter/material.dart';
-
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
 import '../api/api.dart';
@@ -16,13 +15,15 @@ const _daysBefore = 10;
 
 class CategoryChart extends StatelessWidget {
   final Category category;
-  final DashboardApi api;
+  final DashboardApi? api;
 
-  CategoryChart({
-    @required this.category,
-    @required this.api,
-  });
+  const CategoryChart({
+    required this.category,
+    required this.api,
+    Key? key,
+  }) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -33,7 +34,7 @@ class CategoryChart extends StatelessWidget {
             children: [
               Text(category.name),
               IconButton(
-                icon: Icon(Icons.settings),
+                icon: const Icon(Icons.settings),
                 onPressed: () {
                   showDialog<EditCategoryDialog>(
                     context: context,
@@ -50,14 +51,14 @@ class CategoryChart extends StatelessWidget {
           // Load the initial snapshot using a FutureBuilder, and subscribe to
           // additional updates with a StreamBuilder.
           child: FutureBuilder<List<Entry>>(
-            future: api.entries.list(category.id),
+            future: api!.entries.list(category.id!),
             builder: (context, futureSnapshot) {
               if (!futureSnapshot.hasData) {
                 return _buildLoadingIndicator();
               }
               return StreamBuilder<List<Entry>>(
                 initialData: futureSnapshot.data,
-                stream: api.entries.subscribe(category.id),
+                stream: api!.entries.subscribe(category.id!),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return _buildLoadingIndicator();
@@ -73,14 +74,16 @@ class CategoryChart extends StatelessWidget {
   }
 
   Widget _buildLoadingIndicator() {
-    return Center(child: CircularProgressIndicator());
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }
 
 class _BarChart extends StatelessWidget {
-  final List<Entry> entries;
+  final List<Entry>? entries;
 
-  _BarChart({this.entries});
+  const _BarChart({this.entries});
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +98,10 @@ class _BarChart extends StatelessWidget {
       id: 'Entries',
       colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
       domainFn: (entryTotal, _) {
-        if (entryTotal == null) return null;
-
         var format = intl.DateFormat.Md();
         return format.format(entryTotal.day);
       },
       measureFn: (total, _) {
-        if (total == null) return null;
-
         return total.value;
       },
       data: utils.entryTotalsByDay(entries, _daysBefore),

@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:checked_yaml/checked_yaml.dart';
 
 import 'src/data.dart';
-import 'package:checked_yaml/checked_yaml.dart';
 
 export 'src/data.dart';
 
@@ -15,8 +15,11 @@ Future<List<Sample>> getSamples() async {
   var cookbookFile = File('lib/src/cookbook.json');
   var contents = await yamlFile.readAsString();
   var cookbookContents = await cookbookFile.readAsString();
-  var index = checkedYamlDecode(contents, (m) => Index.fromJson(m),
+  var index = checkedYamlDecode(
+      contents, (m) => m != null ? Index.fromJson(m) : null,
       sourceUrl: yamlFile.uri);
-  var cookbookIndex = Index.fromJson(json.decode(cookbookContents));
+  if (index == null) throw ('unable to get load from ${yamlFile.uri}');
+  var cookbookIndex =
+      Index.fromJson(json.decode(cookbookContents) as Map<dynamic, dynamic>);
   return index.samples..addAll(cookbookIndex.samples);
 }

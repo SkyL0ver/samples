@@ -5,6 +5,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart' as uuid;
 
 import 'api.dart';
@@ -20,42 +21,42 @@ class MockDashboardApi implements DashboardApi {
 
   /// Creates a [MockDashboardApi] filled with mock data for the last 30 days.
   Future<void> fillWithMockData() async {
-    await Future<void>.delayed(Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
     var category1 = await categories.insert(Category('Coffee (oz)'));
     var category2 = await categories.insert(Category('Running (miles)'));
     var category3 = await categories.insert(Category('Git Commits'));
-    var monthAgo = DateTime.now().subtract(Duration(days: 30));
+    var monthAgo = DateTime.now().subtract(const Duration(days: 30));
 
     for (var category in [category1, category2, category3]) {
       for (var i = 0; i < 30; i++) {
         var date = monthAgo.add(Duration(days: i));
         var value = Random().nextInt(6) + 1;
-        await entries.insert(category.id, Entry(value, date));
+        await entries.insert(category.id!, Entry(value, date));
       }
     }
   }
 }
 
 class MockCategoryApi implements CategoryApi {
-  Map<String, Category> _storage = {};
-  StreamController<List<Category>> _streamController =
+  final Map<String, Category> _storage = {};
+  final StreamController<List<Category>> _streamController =
       StreamController<List<Category>>.broadcast();
 
   @override
-  Future<Category> delete(String id) async {
+  Future<Category?> delete(String id) async {
     var removed = _storage.remove(id);
     _emit();
     return removed;
   }
 
   @override
-  Future<Category> get(String id) async {
+  Future<Category?> get(String id) async {
     return _storage[id];
   }
 
   @override
   Future<Category> insert(Category category) async {
-    var id = uuid.Uuid().v4();
+    var id = const uuid.Uuid().v4();
     var newCategory = Category(category.name)..id = id;
     _storage[id] = newCategory;
     _emit();
@@ -74,6 +75,7 @@ class MockCategoryApi implements CategoryApi {
     return category..id = id;
   }
 
+  @override
   Stream<List<Category>> subscribe() => _streamController.stream;
 
   void _emit() {
@@ -82,19 +84,19 @@ class MockCategoryApi implements CategoryApi {
 }
 
 class MockEntryApi implements EntryApi {
-  Map<String, Entry> _storage = {};
-  StreamController<_EntriesEvent> _streamController =
+  final Map<String, Entry> _storage = {};
+  final StreamController<_EntriesEvent> _streamController =
       StreamController.broadcast();
 
   @override
-  Future<Entry> delete(String categoryId, String id) async {
+  Future<Entry?> delete(String categoryId, String id) async {
     _emit(categoryId);
     return _storage.remove('$categoryId-$id');
   }
 
   @override
   Future<Entry> insert(String categoryId, Entry entry) async {
-    var id = uuid.Uuid().v4();
+    var id = const uuid.Uuid().v4();
     var newEntry = Entry(entry.value, entry.time)..id = id;
     _storage['$categoryId-$id'] = newEntry;
     _emit(categoryId);
@@ -103,10 +105,12 @@ class MockEntryApi implements EntryApi {
 
   @override
   Future<List<Entry>> list(String categoryId) async {
-    return _storage.keys
+    var list = _storage.keys
         .where((k) => k.startsWith(categoryId))
         .map((k) => _storage[k])
+        .whereNotNull()
         .toList();
+    return list;
   }
 
   @override
@@ -126,14 +130,14 @@ class MockEntryApi implements EntryApi {
   void _emit(String categoryId) {
     var entries = _storage.keys
         .where((k) => k.startsWith(categoryId))
-        .map((k) => _storage[k])
+        .map((k) => _storage[k]!)
         .toList();
 
     _streamController.add(_EntriesEvent(categoryId, entries));
   }
 
   @override
-  Future<Entry> get(String categoryId, String id) async {
+  Future<Entry?> get(String categoryId, String id) async {
     return _storage['$categoryId-$id'];
   }
 }

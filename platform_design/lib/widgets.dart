@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// A simple widget that builds different things on different platforms.
@@ -26,7 +26,7 @@ class PlatformWidget extends StatelessWidget {
         return iosBuilder(context);
       default:
         assert(false, 'Unexpected platform $defaultTargetPlatform');
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
     }
   }
 }
@@ -41,7 +41,8 @@ class PressableCard extends StatefulWidget {
     required this.color,
     required this.flattenAnimation,
     this.child,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final VoidCallback? onPressed;
   final Color color;
@@ -107,8 +108,9 @@ class _PressableCardState extends State<PressableCard>
               // in your own app.
               scale: 1 - elevationAnimation.value * 0.03,
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16) *
-                    flatten,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16) *
+                        flatten,
                 child: PhysicalModel(
                   elevation:
                       ((1 - elevationAnimation.value) * 10 + 10) * flatten,
@@ -134,12 +136,13 @@ class _PressableCardState extends State<PressableCard>
 /// This is an example of a custom widget that an app developer might create for
 /// use on both iOS and Android as part of their brand's unique design.
 class HeroAnimatingSongCard extends StatelessWidget {
-  HeroAnimatingSongCard({
+  const HeroAnimatingSongCard({
     required this.song,
     required this.color,
     required this.heroAnimation,
     this.onPressed,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final String song;
   final Color color;
@@ -177,10 +180,10 @@ class HeroAnimatingSongCard extends StatelessWidget {
                     height: 80,
                     color: Colors.black12,
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Text(
                       song,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w500,
                       ),
@@ -189,12 +192,12 @@ class HeroAnimatingSongCard extends StatelessWidget {
                 ),
                 // The play button grows in the hero animation.
                 Padding(
-                  padding:
-                      EdgeInsets.only(bottom: 45) * (1 - heroAnimation.value),
+                  padding: const EdgeInsets.only(bottom: 45) *
+                      (1 - heroAnimation.value),
                   child: Container(
                     height: playButtonSize,
                     width: playButtonSize,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.black12,
                     ),
@@ -217,19 +220,21 @@ class HeroAnimatingSongCard extends StatelessWidget {
 /// This is an example of a custom widget that an app developer might create for
 /// use on both iOS and Android as part of their brand's unique design.
 class SongPlaceholderTile extends StatelessWidget {
+  const SongPlaceholderTile({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 95,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         child: Row(
           children: [
             Container(
               color: Theme.of(context).textTheme.bodyText2!.color,
               width: 130,
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 12),
             ),
             Expanded(
@@ -238,27 +243,27 @@ class SongPlaceholderTile extends StatelessWidget {
                 children: [
                   Container(
                     height: 9,
-                    margin: EdgeInsets.only(right: 60),
+                    margin: const EdgeInsets.only(right: 60),
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                   Container(
                     height: 9,
-                    margin: EdgeInsets.only(right: 20, top: 8),
+                    margin: const EdgeInsets.only(right: 20, top: 8),
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                   Container(
                     height: 9,
-                    margin: EdgeInsets.only(right: 40, top: 8),
+                    margin: const EdgeInsets.only(right: 40, top: 8),
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                   Container(
                     height: 9,
-                    margin: EdgeInsets.only(right: 80, top: 8),
+                    margin: const EdgeInsets.only(right: 80, top: 8),
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                   Container(
                     height: 9,
-                    margin: EdgeInsets.only(right: 50, top: 8),
+                    margin: const EdgeInsets.only(right: 50, top: 8),
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                 ],
@@ -289,7 +294,7 @@ void showChoices(BuildContext context, List<String> choices) {
         builder: (context) {
           int? selectedRadio = 1;
           return AlertDialog(
-            contentPadding: EdgeInsets.only(top: 12),
+            contentPadding: const EdgeInsets.only(top: 12),
             content: StatefulBuilder(
               builder: (context, setState) {
                 return Column(
@@ -309,11 +314,11 @@ void showChoices(BuildContext context, List<String> choices) {
             ),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               TextButton(
-                child: Text('CANCEL'),
+                child: const Text('CANCEL'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -337,7 +342,7 @@ void showChoices(BuildContext context, List<String> choices) {
                 return Center(
                   child: Text(
                     choices[index],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 21,
                     ),
                   ),

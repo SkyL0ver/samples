@@ -15,6 +15,8 @@ class NewsTab extends StatefulWidget {
   static const androidIcon = Icon(Icons.library_books);
   static const iosIcon = Icon(CupertinoIcons.news);
 
+  const NewsTab({Key? key}) : super(key: key);
+
   @override
   _NewsTabState createState() => _NewsTabState();
 }
@@ -41,7 +43,7 @@ class _NewsTabState extends State<NewsTab> {
       bottom: false,
       child: Card(
         elevation: 1.5,
-        margin: EdgeInsets.fromLTRB(6, 12, 6, 0),
+        margin: const EdgeInsets.fromLTRB(6, 12, 6, 0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),
@@ -58,22 +60,22 @@ class _NewsTabState extends State<NewsTab> {
                   backgroundColor: colors[index],
                   child: Text(
                     titles[index].substring(0, 1),
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(left: 16)),
+                const Padding(padding: EdgeInsets.only(left: 16)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         titles[index],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(top: 8)),
+                      const Padding(padding: EdgeInsets.only(top: 8)),
                       Text(
                         contents[index],
                       ),
@@ -95,20 +97,18 @@ class _NewsTabState extends State<NewsTab> {
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(NewsTab.title),
+        title: const Text(NewsTab.title),
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: _itemsLength,
-          itemBuilder: _listBuilder,
-        ),
+      body: ListView.builder(
+        itemCount: _itemsLength,
+        itemBuilder: _listBuilder,
       ),
     );
   }
 
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(),
+      navigationBar: const CupertinoNavigationBar(),
       child: ListView.builder(
         itemCount: _itemsLength,
         itemBuilder: _listBuilder,

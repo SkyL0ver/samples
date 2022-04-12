@@ -7,9 +7,9 @@ import 'data.dart';
 import 'util.dart' as util;
 
 String _escapeAttribute(String s) =>
-    HtmlEscape(HtmlEscapeMode.attribute).convert(s);
+    const HtmlEscape(HtmlEscapeMode.attribute).convert(s);
 String _escapeElement(String s) =>
-    HtmlEscape(HtmlEscapeMode.element).convert(s);
+    const HtmlEscape(HtmlEscapeMode.element).convert(s);
 
 String description(Sample sample) => '''
 <!DOCTYPE html>
@@ -39,6 +39,7 @@ String _indexHeader = '''
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="packages/mdc_web/material-components-web.min.js"></script>
   <script defer src="main.dart.js"></script>
+  ${_googleAnalytics()}
 </head>
 ''';
 
@@ -53,6 +54,7 @@ String _descriptionHeader = '''
   <script src="packages/mdc_web/material-components-web.min.js"></script>
   <script src="https://kit.fontawesome.com/16cc04762e.js"></script>
   <script defer src="description.dart.js"></script>
+  ${_googleAnalytics()}
 </head>
 ''';
 
@@ -60,7 +62,7 @@ String _navbar = '''
 <div class="navbar">
   <a class="leading" href="./">
     <img src="images/logos/logo_lockup_flutter_horizontal_wht_96.png" />
-    <span class="title">Samples</span> 
+    <span class="title">Samples</span>
   </a>
   <div class="nav-items">
     <a href="https://flutter.dev/">Flutter Home</a>
@@ -71,7 +73,7 @@ String _navbar = '''
 
 String _footer = '''
 <div class="footer">
-  <span>© Flutter 2020</span>
+  <span>© Flutter ${DateTime.now().toUtc().year}</span>
 </div>
 ''';
 
@@ -187,7 +189,7 @@ String _descriptionPage(Sample sample) => '''
 
 String _descriptionButtons(Sample sample) {
   var buf = StringBuffer();
-  if (sample?.web?.isNotEmpty == true) {
+  if (sample.web?.isNotEmpty == true) {
     buf.write(
         '''<button class="mdc-button mdc-button--outlined" onclick="window.location.href = '${sample.web}';"><span class="mdc-button__ripple"></span> Launch App</button>''');
   }
@@ -229,4 +231,15 @@ String _descriptionScreenshots(Sample sample) {
 
 String _descriptionText(Sample sample) {
   return '<p>${sample.description}</p>';
+}
+
+String _googleAnalytics() {
+  return """
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67589403-8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-67589403-8');
+  </script>""";
 }

@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 
 class TweenSequenceDemo extends StatefulWidget {
+  const TweenSequenceDemo({Key? key}) : super(key: key);
   static const String routeName = '/basics/chaining_tweens';
 
   @override
@@ -60,7 +61,7 @@ class _TweenSequenceDemoState extends State<TweenSequenceDemo>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tween Sequences'),
+        title: const Text('Tween Sequences'),
       ),
       body: Center(
         child: AnimatedBuilder(
@@ -75,7 +76,7 @@ class _TweenSequenceDemoState extends State<TweenSequenceDemo>
               child: child,
             );
           },
-          child: Text('Animate', style: TextStyle(color: Colors.white)),
+          child: const Text('Animate', style: TextStyle(color: Colors.white)),
         ),
       ),
     );

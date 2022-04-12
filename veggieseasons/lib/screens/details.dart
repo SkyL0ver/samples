@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:veggieseasons/data/app_state.dart';
 import 'package:veggieseasons/data/preferences.dart';
@@ -13,7 +12,7 @@ import 'package:veggieseasons/widgets/close_button.dart';
 import 'package:veggieseasons/widgets/trivia.dart';
 
 class ServingInfoChart extends StatelessWidget {
-  const ServingInfoChart(this.veggie, this.prefs);
+  const ServingInfoChart(this.veggie, this.prefs, {Key? key}) : super(key: key);
 
   final Veggie veggie;
 
@@ -26,7 +25,7 @@ class ServingInfoChart extends StatelessWidget {
     return FutureBuilder<int>(
       future: targetCalories,
       builder: (context, snapshot) {
-        final target = snapshot?.data ?? 2000;
+        final target = snapshot.data ?? 2000;
         final percent = standardPercentage * 2000 ~/ target;
 
         return Text(
@@ -43,7 +42,7 @@ class ServingInfoChart extends StatelessWidget {
     final themeData = CupertinoTheme.of(context);
     return Column(
       children: [
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
@@ -141,7 +140,7 @@ class ServingInfoChart extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Text(
                       'Percent daily values based on a diet of '
-                      '${snapshot?.data ?? '2,000'} calories.',
+                      '${snapshot.data ?? '2,000'} calories.',
                       style: Styles.detailsServingNoteText(themeData),
                     );
                   },
@@ -156,9 +155,9 @@ class ServingInfoChart extends StatelessWidget {
 }
 
 class InfoView extends StatelessWidget {
-  final int id;
+  final int? id;
 
-  const InfoView(this.id);
+  const InfoView(this.id, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -174,24 +173,24 @@ class InfoView extends StatelessWidget {
         children: [
           Row(
             mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
+            children: [
               FutureBuilder<Set<VeggieCategory>>(
                 future: prefs.preferredCategories,
                 builder: (context, snapshot) {
                   return Text(
-                    veggie.categoryName.toUpperCase(),
+                    veggie.categoryName!.toUpperCase(),
                     style: (snapshot.hasData &&
-                            snapshot.data.contains(veggie.category))
+                            snapshot.data!.contains(veggie.category))
                         ? Styles.detailsPreferredCategoryText(themeData)
                         : themeData.textTheme.textStyle,
                   );
                 },
               ),
-              Spacer(),
+              const Spacer(),
               for (Season season in veggie.seasons) ...[
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Padding(
-                  padding: Styles.seasonIconPadding[season],
+                  padding: Styles.seasonIconPadding[season]!,
                   child: Icon(
                     Styles.seasonIconData[season],
                     semanticLabel: seasonNames[season],
@@ -201,18 +200,18 @@ class InfoView extends StatelessWidget {
               ],
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             veggie.name,
             style: Styles.detailsTitleText(themeData),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             veggie.shortDescription,
             style: CupertinoTheme.of(context).textTheme.textStyle,
           ),
           ServingInfoChart(veggie, prefs),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -222,7 +221,7 @@ class InfoView extends StatelessWidget {
                   appState.setFavorite(id, value);
                 },
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 'Save to Garden',
                 style: CupertinoTheme.of(context).textTheme.textStyle,
@@ -236,17 +235,18 @@ class InfoView extends StatelessWidget {
 }
 
 class DetailsScreen extends StatefulWidget {
-  final int id;
-  final String restorationId;
+  final int? id;
+  final String? restorationId;
 
-  DetailsScreen({this.id, this.restorationId});
+  const DetailsScreen({this.id, this.restorationId, Key? key})
+      : super(key: key);
 
   static String show(NavigatorState navigator, int veggieId) {
     return navigator.restorablePush<void>(_routeBuilder, arguments: veggieId);
   }
 
-  static Route<void> _routeBuilder(BuildContext context, Object arguments) {
-    final veggieId = arguments as int;
+  static Route<void> _routeBuilder(BuildContext context, Object? arguments) {
+    final veggieId = arguments as int?;
     return CupertinoPageRoute(
       builder: (context) =>
           DetailsScreen(id: veggieId, restorationId: 'details'),
@@ -262,10 +262,10 @@ class _DetailsScreenState extends State<DetailsScreen> with RestorationMixin {
   final RestorableInt _selectedViewIndex = RestorableInt(0);
 
   @override
-  String get restorationId => widget.restorationId;
+  String? get restorationId => widget.restorationId;
 
   @override
-  void restoreState(RestorationBucket oldBucket, bool initialRestore) {
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
     registerForRestoration(_selectedViewIndex, 'tab');
   }
 
@@ -321,9 +321,9 @@ class _DetailsScreenState extends State<DetailsScreen> with RestorationMixin {
                 restorationId: 'list',
                 children: [
                   _buildHeader(context, appState),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   CupertinoSegmentedControl<int>(
-                    children: {
+                    children: const {
                       0: Text(
                         'Facts & Info',
                       ),

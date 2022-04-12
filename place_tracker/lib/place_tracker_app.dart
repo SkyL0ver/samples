@@ -17,16 +17,18 @@ enum PlaceTrackerViewType {
 }
 
 class PlaceTrackerApp extends StatelessWidget {
+  const PlaceTrackerApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: _PlaceTrackerHomePage(),
     );
   }
 }
 
 class _PlaceTrackerHomePage extends StatelessWidget {
-  const _PlaceTrackerHomePage({Key key}) : super(key: key);
+  const _PlaceTrackerHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class _PlaceTrackerHomePage extends StatelessWidget {
         backgroundColor: Colors.green[700],
         actions: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
             child: IconButton(
               icon: Icon(
                 state.viewType == PlaceTrackerViewType.map
@@ -67,8 +69,8 @@ class _PlaceTrackerHomePage extends StatelessWidget {
       ),
       body: IndexedStack(
         index: state.viewType == PlaceTrackerViewType.map ? 0 : 1,
-        children: [
-          PlaceMap(center: const LatLng(45.521563, -122.677433)),
+        children: const [
+          PlaceMap(center: LatLng(45.521563, -122.677433)),
           PlaceList()
         ],
       ),
@@ -81,8 +83,7 @@ class AppState extends ChangeNotifier {
     this.places = StubData.places,
     this.selectedCategory = PlaceCategory.favorite,
     this.viewType = PlaceTrackerViewType.map,
-  })  : assert(places != null),
-        assert(selectedCategory != null);
+  });
 
   List<Place> places;
   PlaceCategory selectedCategory;

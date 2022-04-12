@@ -11,11 +11,13 @@ import '../app.dart';
 import 'edit_entry.dart';
 
 class NewCategoryDialog extends StatelessWidget {
+  const NewCategoryDialog({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
+    return const SimpleDialog(
       title: Text('New Category'),
-      children: <Widget>[
+      children: [
         NewCategoryForm(),
       ],
     );
@@ -25,22 +27,23 @@ class NewCategoryDialog extends StatelessWidget {
 class EditCategoryDialog extends StatelessWidget {
   final Category category;
 
-  EditCategoryDialog({
-    @required this.category,
-  });
+  const EditCategoryDialog({
+    required this.category,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var api = Provider.of<AppState>(context).api;
 
     return SimpleDialog(
-      title: Text('Edit Category'),
+      title: const Text('Edit Category'),
       children: [
         EditCategoryForm(
           category: category,
           onDone: (shouldUpdate) {
             if (shouldUpdate) {
-              api.categories.update(category, category.id);
+              api!.categories.update(category, category.id!);
             }
             Navigator.of(context).pop();
           },
@@ -51,6 +54,8 @@ class EditCategoryDialog extends StatelessWidget {
 }
 
 class NewEntryDialog extends StatefulWidget {
+  const NewEntryDialog({Key? key}) : super(key: key);
+
   @override
   _NewEntryDialogState createState() => _NewEntryDialogState();
 }
@@ -58,7 +63,7 @@ class NewEntryDialog extends StatefulWidget {
 class _NewEntryDialogState extends State<NewEntryDialog> {
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
+    return const SimpleDialog(
       title: Text('New Entry'),
       children: [
         NewEntryForm(),
@@ -68,26 +73,27 @@ class _NewEntryDialogState extends State<NewEntryDialog> {
 }
 
 class EditEntryDialog extends StatelessWidget {
-  final Category category;
-  final Entry entry;
+  final Category? category;
+  final Entry? entry;
 
-  EditEntryDialog({
+  const EditEntryDialog({
     this.category,
     this.entry,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var api = Provider.of<AppState>(context).api;
 
     return SimpleDialog(
-      title: Text('Edit Entry'),
+      title: const Text('Edit Entry'),
       children: [
         EditEntryForm(
           entry: entry,
           onDone: (shouldUpdate) {
             if (shouldUpdate) {
-              api.entries.update(category.id, entry.id, entry);
+              api!.entries.update(category!.id!, entry!.id!, entry!);
             }
             Navigator.of(context).pop();
           },

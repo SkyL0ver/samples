@@ -7,14 +7,15 @@ import 'dart:html';
 class Carousel {
   final bool withArrowKeyControl;
 
-  final Element container = querySelector('.slider-container');
+  final Element container = querySelector('.slider-container')!;
   final List<Element> slides = querySelectorAll('.slider-single');
 
-  int currentSlideIndex, lastSlideIndex;
+  late int currentSlideIndex;
+  late int lastSlideIndex;
 
-  Element prevSlide, currentSlide, nextSlide;
+  late Element prevSlide, currentSlide, nextSlide;
 
-  num x0;
+  late num x0;
   bool touched = false;
 
   Carousel.init({this.withArrowKeyControl = false}) {
@@ -45,13 +46,14 @@ class Carousel {
 
     // Move to the first slide after init
     // This is responsible for creating a smooth animation
-    Future.delayed(Duration(milliseconds: 500)).then((value) => _slideRight());
+    Future<void>.delayed(const Duration(milliseconds: 500))
+        .then((value) => _slideRight());
   }
 
   void _hideSlides() {
-    slides.forEach((s) {
+    for (final s in slides) {
       s.classes.add('next-hidden');
-    });
+    }
   }
 
   void _initBullets() {
@@ -89,13 +91,13 @@ class Carousel {
   }
 
   void _touchStartListener(TouchEvent e) {
-    x0 = e.changedTouches.first.client.x;
+    x0 = e.changedTouches!.first.client.x;
     touched = true;
   }
 
   void _touchEndListener(TouchEvent e) {
     if (touched) {
-      int dx = e.changedTouches.first.client.x - x0;
+      int dx = (e.changedTouches!.first.client.x - x0) as int;
 
       // dx==0 case is ignored
       if (dx > 0 && currentSlideIndex > 0) {
@@ -114,7 +116,7 @@ class Carousel {
 
   void _updateBullets() {
     final bullets =
-        querySelector('.bullet-container').querySelectorAll('.bullet');
+        querySelector('.bullet-container')!.querySelectorAll('.bullet');
     for (var i = 0; i < bullets.length; i++) {
       bullets[i].classes.remove('active');
       if (i == currentSlideIndex) {
@@ -131,18 +133,18 @@ class Carousel {
     if (currentSlideIndex == slides.length - 1) {
       slides[0].classes.add('hidden');
       slides[slides.length - 1].classes.remove('hidden');
-      prevArrow.classes.remove('hidden');
-      nextArrow.classes.add('hidden');
+      prevArrow!.classes.remove('hidden');
+      nextArrow!.classes.add('hidden');
     } else if (currentSlideIndex == 0) {
       slides[slides.length - 1].classes.add('hidden');
       slides[0].classes.remove('hidden');
-      prevArrow.classes.add('hidden');
-      nextArrow.classes.remove('hidden');
+      prevArrow!.classes.add('hidden');
+      nextArrow!.classes.remove('hidden');
     } else {
       slides[slides.length - 1].classes.remove('hidden');
       slides[0].classes.remove('hidden');
-      prevArrow.classes.remove('hidden');
-      nextArrow.classes.remove('hidden');
+      prevArrow!.classes.remove('hidden');
+      nextArrow!.classes.remove('hidden');
     }
   }
 
@@ -167,11 +169,11 @@ class Carousel {
       nextSlide = slides[0];
     }
 
-    slides.forEach((e) {
+    for (final e in slides) {
       _removeSlideClasses([e]);
       if (e.classes.contains('prev-hidden')) e.classes.add('next-hidden');
       if (e.classes.contains('prev')) e.classes.add('prev-hidden');
-    });
+    }
 
     _removeSlideClasses([prevSlide, currentSlide, nextSlide]);
 
@@ -203,11 +205,11 @@ class Carousel {
       prevSlide = slides[lastSlideIndex];
     }
 
-    slides.forEach((e) {
+    for (final e in slides) {
       _removeSlideClasses([e]);
       if (e.classes.contains('next')) e.classes.add('next-hidden');
       if (e.classes.contains('next-hidden')) e.classes.add('prev-hidden');
-    });
+    }
 
     _removeSlideClasses([prevSlide, currentSlide, nextSlide]);
 
@@ -218,7 +220,7 @@ class Carousel {
     _updateBullets();
   }
 
-  void _goToIndexSlide(index) {
+  void _goToIndexSlide(int index) {
     final sliding =
         (currentSlideIndex < index) ? () => _slideRight() : () => _slideLeft();
     while (currentSlideIndex != index) {
@@ -227,10 +229,10 @@ class Carousel {
   }
 
   void _removeSlideClasses(List<Element> slides) {
-    slides.forEach((s) {
+    for (final s in slides) {
       s.classes
           .removeAll(['prev-hidden', 'prev', 'active', 'next', 'next-hidden']);
-    });
+    }
   }
 
   void _initArrowKeyControl() {

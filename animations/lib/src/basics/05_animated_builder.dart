@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 
 class AnimatedBuilderDemo extends StatefulWidget {
+  const AnimatedBuilderDemo({Key? key}) : super(key: key);
   static const String routeName = '/basics/animated_builder';
 
   @override
@@ -15,7 +16,7 @@ class _AnimatedBuilderDemoState extends State<AnimatedBuilderDemo>
     with SingleTickerProviderStateMixin {
   static const Color beginColor = Colors.deepPurple;
   static const Color endColor = Colors.deepOrange;
-  Duration duration = Duration(milliseconds: 800);
+  Duration duration = const Duration(milliseconds: 800);
   late AnimationController controller;
   late Animation<Color?> animation;
 
@@ -38,7 +39,7 @@ class _AnimatedBuilderDemoState extends State<AnimatedBuilderDemo>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AnimatedBuilder'),
+        title: const Text('AnimatedBuilder'),
       ),
       body: Center(
         // AnimatedBuilder handles listening to a given animation and calling the builder
@@ -66,7 +67,7 @@ class _AnimatedBuilderDemoState extends State<AnimatedBuilderDemo>
           // if there is a non-animated Widget contained within the animated widget.
           // This can improve performance since this widget doesn't need to be rebuilt
           // when the animation changes.
-          child: Text(
+          child: const Text(
             'Change Color',
             style: TextStyle(color: Colors.white),
           ),

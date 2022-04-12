@@ -5,29 +5,35 @@
 import 'package:flutter/material.dart';
 
 class FocusImageDemo extends StatelessWidget {
+  const FocusImageDemo({Key? key}) : super(key: key);
   static String routeName = '/misc/focus_image';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Focus Image')),
-      body: Grid(),
+      appBar: AppBar(title: const Text('Focus Image')),
+      body: const Grid(),
     );
   }
 }
 
 class Grid extends StatelessWidget {
+  const Grid({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GridView.builder(
         itemCount: 40,
         gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
         itemBuilder: (context, index) {
           return (index >= 20)
-              ? SmallCard('assets/eat_cape_town_sm.jpg')
-              : SmallCard('assets/eat_new_orleans_sm.jpg');
+              ? const SmallCard(
+                  imageAssetName: 'assets/eat_cape_town_sm.jpg',
+                )
+              : const SmallCard(
+                  imageAssetName: 'assets/eat_new_orleans_sm.jpg',
+                );
         },
       ),
     );
@@ -66,9 +72,8 @@ Tween<RelativeRect> _createTween(BuildContext context) {
 }
 
 class SmallCard extends StatelessWidget {
+  const SmallCard({required this.imageAssetName, Key? key}) : super(key: key);
   final String imageAssetName;
-
-  SmallCard(this.imageAssetName);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +97,7 @@ class SmallCard extends StatelessWidget {
 class _SecondPage extends StatelessWidget {
   final String imageAssetName;
 
-  _SecondPage(this.imageAssetName);
+  const _SecondPage(this.imageAssetName);
 
   @override
   Widget build(BuildContext context) {

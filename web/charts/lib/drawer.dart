@@ -20,27 +20,27 @@ class GalleryDrawer extends StatelessWidget {
   final bool showPerformanceOverlay;
   final ValueChanged<bool> onShowPerformanceOverlayChanged;
 
-  GalleryDrawer(
-      {Key key,
-      this.showPerformanceOverlay,
-      this.onShowPerformanceOverlayChanged})
+  const GalleryDrawer(
+      {Key? key,
+      required this.showPerformanceOverlay,
+      required this.onShowPerformanceOverlayChanged})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new Drawer(
-      child: new ListView(children: <Widget>[
+    return Drawer(
+      child: ListView(children: [
         // Performance overlay toggle.
-        new ListTile(
-          leading: new Icon(Icons.assessment),
-          title: new Text('Performance Overlay'),
+        ListTile(
+          leading: const Icon(Icons.assessment),
+          title: const Text('Performance Overlay'),
           onTap: () {
             onShowPerformanceOverlayChanged(!showPerformanceOverlay);
           },
           selected: showPerformanceOverlay,
-          trailing: new Checkbox(
+          trailing: Checkbox(
             value: showPerformanceOverlay,
-            onChanged: (bool value) {
+            onChanged: (bool? value) {
               onShowPerformanceOverlayChanged(!showPerformanceOverlay);
             },
           ),

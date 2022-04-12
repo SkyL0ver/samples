@@ -2,47 +2,49 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart' as english_words;
+import 'package:flutter/material.dart';
 
 class FormValidationDemo extends StatefulWidget {
+  const FormValidationDemo({Key? key}) : super(key: key);
+
   @override
   _FormValidationDemoState createState() => _FormValidationDemoState();
 }
 
 class _FormValidationDemoState extends State<FormValidationDemo> {
   final _formKey = GlobalKey<FormState>();
-  String adjective;
-  String noun;
-  bool agreedToTerms = false;
+  String? adjective;
+  String? noun;
+  bool? agreedToTerms = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('📖 Story Generator'),
+        title: const Text('📖 Story Generator'),
         actions: [
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: TextButton(
               style: TextButton.styleFrom(primary: Colors.white),
-              child: Text('Submit'),
+              child: const Text('Submit'),
               onPressed: () {
                 // Validate the form by getting the FormState from the GlobalKey
                 // and calling validate() on it.
-                var valid = _formKey.currentState.validate();
+                var valid = _formKey.currentState!.validate();
                 if (!valid) {
                   return;
                 }
 
-                showDialog(
+                showDialog<void>(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text('Your story'),
+                    title: const Text('Your story'),
                     content: Text('The $adjective developer saw a $noun'),
                     actions: [
                       TextButton(
-                        child: Text('Done'),
+                        child: const Text('Done'),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -59,7 +61,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
         key: _formKey,
         child: Scrollbar(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 // A text field that validates that the text is an adjective.
@@ -67,7 +69,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                   autofocus: true,
                   textInputAction: TextInputAction.next,
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter an adjective.';
                     }
                     if (english_words.adjectives.contains(value)) {
@@ -75,7 +77,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                     }
                     return 'Not a valid adjective.';
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     filled: true,
                     hintText: 'e.g. quick, beautiful, interesting',
                     labelText: 'Enter an adjective',
@@ -84,13 +86,13 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                     adjective = value;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 // A text field that validates that the text is a noun.
                 TextFormField(
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter a noun.';
                     }
                     if (english_words.nouns.contains(value)) {
@@ -98,7 +100,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                     }
                     return 'Not a valid noun.';
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     filled: true,
                     hintText: 'i.e. a person, place or thing',
                     labelText: 'Enter a noun',
@@ -107,12 +109,12 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                     noun = value;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 // A custom form field that requires the user to check a
                 // checkbox.
-                FormField(
+                FormField<bool>(
                   initialValue: false,
                   validator: (value) {
                     if (value == false) {
@@ -120,7 +122,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                     }
                     return null;
                   },
-                  builder: (FormFieldState formFieldState) {
+                  builder: (formFieldState) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -149,7 +151,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                             formFieldState.errorText ?? "",
                             style: Theme.of(context)
                                 .textTheme
-                                .caption
+                                .caption!
                                 .copyWith(color: Theme.of(context).errorColor),
                           ),
                       ],

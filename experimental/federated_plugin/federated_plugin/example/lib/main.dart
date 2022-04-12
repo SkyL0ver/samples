@@ -6,13 +6,15 @@ import 'package:federated_plugin/federated_plugin.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomePage(),
     );
   }
@@ -21,32 +23,33 @@ class MyApp extends StatelessWidget {
 /// Demonstrates how to use the getBatteryLevel method from federated_plugin to retrieve
 /// current battery level of device.
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int batteryLevel;
+  int? batteryLevel;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Federated Plugin Demo'),
+        title: const Text('Federated Plugin Demo'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             batteryLevel == null
-                ? SizedBox.shrink()
+                ? const SizedBox.shrink()
                 : Text(
                     'Battery Level: $batteryLevel',
                     style: Theme.of(context).textTheme.headline5,
                   ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
-              child: Text('Get Battery Level'),
               onPressed: () async {
                 try {
                   final result = await getBatteryLevel();
@@ -57,11 +60,14 @@ class _HomePageState extends State<HomePage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Theme.of(context).primaryColor,
-                      content: Text(error.message as String),
+                      content: Text(
+                        (error as dynamic).message as String,
+                      ),
                     ),
                   );
                 }
               },
+              child: const Text('Get Battery Level'),
             ),
           ],
         ),

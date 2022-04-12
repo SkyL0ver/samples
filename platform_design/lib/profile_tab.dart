@@ -13,13 +13,15 @@ class ProfileTab extends StatelessWidget {
   static const androidIcon = Icon(Icons.person);
   static const iosIcon = Icon(CupertinoIcons.profile_circled);
 
+  const ProfileTab({Key? key}) : super(key: key);
+
   Widget _buildBody(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(8),
               child: Center(
                 child: Text(
@@ -31,7 +33,7 @@ class ProfileTab extends StatelessWidget {
                 ),
               ),
             ),
-            PreferenceCard(
+            const PreferenceCard(
               header: 'MY INTENSITY PREFERENCE',
               content: '🔥',
               preferenceChoices: [
@@ -42,7 +44,7 @@ class ProfileTab extends StatelessWidget {
                 'My neighbor hates me',
               ],
             ),
-            PreferenceCard(
+            const PreferenceCard(
               header: 'CURRENT MOOD',
               content: '🤘🏾🚀',
               preferenceChoices: [
@@ -55,7 +57,7 @@ class ProfileTab extends StatelessWidget {
             Expanded(
               child: Container(),
             ),
-            LogOutButton(),
+            const LogOutButton(),
           ],
         ),
       ),
@@ -70,7 +72,7 @@ class ProfileTab extends StatelessWidget {
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text(title),
       ),
       body: _buildBody(context),
     );
@@ -89,7 +91,7 @@ class ProfileTab extends StatelessWidget {
               CupertinoPageRoute(
                 title: SettingsTab.title,
                 fullscreenDialog: true,
-                builder: (context) => SettingsTab(),
+                builder: (context) => const SettingsTab(),
               ),
             );
           },
@@ -113,7 +115,8 @@ class PreferenceCard extends StatelessWidget {
     required this.header,
     required this.content,
     required this.preferenceChoices,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final String header;
   final String content;
@@ -123,18 +126,18 @@ class PreferenceCard extends StatelessWidget {
   Widget build(context) {
     return PressableCard(
       color: Colors.green,
-      flattenAnimation: AlwaysStoppedAnimation(0),
+      flattenAnimation: const AlwaysStoppedAnimation(0),
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             height: 120,
             width: 250,
             child: Padding(
-              padding: EdgeInsets.only(top: 40),
+              padding: const EdgeInsets.only(top: 40),
               child: Center(
                 child: Text(
                   content,
-                  style: TextStyle(fontSize: 48),
+                  style: const TextStyle(fontSize: 48),
                 ),
               ),
             ),
@@ -146,11 +149,11 @@ class PreferenceCard extends StatelessWidget {
             child: Container(
               color: Colors.black12,
               height: 40,
-              padding: EdgeInsets.only(left: 12),
+              padding: const EdgeInsets.only(left: 12),
               alignment: Alignment.centerLeft,
               child: Text(
                 header,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -171,6 +174,8 @@ class LogOutButton extends StatelessWidget {
   static const _logoutMessage = Text(
       "You can't actually log out! This is just a demo of how alerts work.");
 
+  const LogOutButton({Key? key}) : super(key: key);
+
   // ===========================================================================
   // Non-shared code below because this tab shows different interfaces. On
   // Android, it's showing an alert dialog with 2 buttons and on iOS,
@@ -182,7 +187,7 @@ class LogOutButton extends StatelessWidget {
 
   Widget _buildAndroid(BuildContext context) {
     return ElevatedButton(
-      child: Text('LOG OUT', style: TextStyle(color: Colors.red)),
+      child: const Text('LOG OUT', style: TextStyle(color: Colors.red)),
       onPressed: () {
         // You should do something with the result of the dialog prompt in a
         // real app but this is just a demo.
@@ -190,7 +195,7 @@ class LogOutButton extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('Log out?'),
+              title: const Text('Log out?'),
               content: _logoutMessage,
               actions: [
                 TextButton(
@@ -212,7 +217,7 @@ class LogOutButton extends StatelessWidget {
   Widget _buildIos(BuildContext context) {
     return CupertinoButton(
       color: CupertinoColors.destructiveRed,
-      child: Text('Log out'),
+      child: const Text('Log out'),
       onPressed: () {
         // You should do something with the result of the action sheet prompt
         // in a real app but this is just a demo.
@@ -220,7 +225,7 @@ class LogOutButton extends StatelessWidget {
           context: context,
           builder: (context) {
             return CupertinoActionSheet(
-              title: Text('Log out?'),
+              title: const Text('Log out?'),
               message: _logoutMessage,
               actions: [
                 CupertinoActionSheetAction(

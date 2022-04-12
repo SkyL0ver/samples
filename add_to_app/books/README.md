@@ -2,7 +2,7 @@
 
 Mimics a real world use-case of embedding Flutter into an existing Android app
 and demonstrates using [Pigeon](https://pub.dev/packages/pigeon) to communicate
-between Fluter and the host application.
+between Flutter and the host application.
 
 ## Description
 
@@ -73,7 +73,7 @@ you're building for both iOS and Android, with both toolchains installed):
   # For iOS builds:
   cd ../ios_books
   pod install
-  open ios_books/IosBooks.xcworkspace
+  open IosBooks.xcworkspace
 ```
 
 ## Requirements

@@ -3,9 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AnimatedListDemo extends StatefulWidget {
+  const AnimatedListDemo({Key? key}) : super(key: key);
   static String routeName = '/misc/animated_list';
 
   @override
@@ -30,7 +30,7 @@ class _AnimatedListDemoState extends State<AnimatedListDemo> {
         UserModel(++_maxIdValue, 'New', 'Person'),
       );
       _listKey.currentState!
-          .insertItem(index, duration: Duration(milliseconds: 300));
+          .insertItem(index, duration: const Duration(milliseconds: 300));
     });
   }
 
@@ -42,17 +42,17 @@ class _AnimatedListDemoState extends State<AnimatedListDemo> {
         index,
         (context, animation) {
           return FadeTransition(
-            opacity:
-                CurvedAnimation(parent: animation, curve: Interval(0.5, 1.0)),
+            opacity: CurvedAnimation(
+                parent: animation, curve: const Interval(0.5, 1.0)),
             child: SizeTransition(
-              sizeFactor:
-                  CurvedAnimation(parent: animation, curve: Interval(0.0, 1.0)),
+              sizeFactor: CurvedAnimation(
+                  parent: animation, curve: const Interval(0.0, 1.0)),
               axisAlignment: 0.0,
               child: _buildItem(user),
             ),
           );
         },
-        duration: Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 600),
       );
     });
   }
@@ -62,11 +62,11 @@ class _AnimatedListDemoState extends State<AnimatedListDemo> {
       key: ValueKey<UserModel>(user),
       title: Text(user.firstName),
       subtitle: Text(user.lastName),
-      leading: CircleAvatar(
+      leading: const CircleAvatar(
         child: Icon(Icons.person),
       ),
       trailing: IconButton(
-        icon: Icon(Icons.delete),
+        icon: const Icon(Icons.delete),
         onPressed: () => deleteUser(user.id),
       ),
     );
@@ -76,10 +76,10 @@ class _AnimatedListDemoState extends State<AnimatedListDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AnimatedList'),
-        actions: <Widget>[
+        title: const Text('AnimatedList'),
+        actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: addUser,
           ),
         ],

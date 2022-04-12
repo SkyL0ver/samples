@@ -8,15 +8,17 @@ import 'package:veggieseasons/screens/details.dart';
 import 'package:veggieseasons/styles.dart';
 
 class ZoomClipAssetImage extends StatelessWidget {
-  const ZoomClipAssetImage(
-      {@required this.zoom,
-      this.height,
-      this.width,
-      @required this.imageAsset});
+  const ZoomClipAssetImage({
+    required this.zoom,
+    this.height,
+    this.width,
+    required this.imageAsset,
+    Key? key,
+  }) : super(key: key);
 
   final double zoom;
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
   final String imageAsset;
 
   @override
@@ -28,8 +30,8 @@ class ZoomClipAssetImage extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: OverflowBox(
-          maxHeight: height * zoom,
-          maxWidth: width * zoom,
+          maxHeight: height! * zoom,
+          maxWidth: width! * zoom,
           child: Image.asset(
             imageAsset,
             fit: BoxFit.fill,
@@ -43,13 +45,13 @@ class ZoomClipAssetImage extends StatelessWidget {
 class VeggieHeadline extends StatelessWidget {
   final Veggie veggie;
 
-  const VeggieHeadline(this.veggie);
+  const VeggieHeadline(this.veggie, {Key? key}) : super(key: key);
 
   List<Widget> _buildSeasonDots(List<Season> seasons) {
     var widgets = <Widget>[];
 
     for (var season in seasons) {
-      widgets.add(SizedBox(width: 4));
+      widgets.add(const SizedBox(width: 4));
       widgets.add(
         Container(
           height: 10,
@@ -80,7 +82,7 @@ class VeggieHeadline extends StatelessWidget {
             height: 72,
             width: 72,
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Flexible(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

@@ -4,34 +4,35 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
-void main() => runApp(MyApp(Colors.blue));
-
-@pragma('vm:entry-point')
-void topMain() => runApp(MyApp(Colors.green));
+void main() => runApp(const MyApp(color: Colors.blue));
 
 @pragma('vm:entry-point')
-void bottomMain() => runApp(MyApp(Colors.purple));
+void topMain() => runApp(const MyApp(color: Colors.green));
+
+@pragma('vm:entry-point')
+void bottomMain() => runApp(const MyApp(color: Colors.purple));
 
 class MyApp extends StatelessWidget {
-  MyApp(this.color);
+  const MyApp({Key? key, required this.color}) : super(key: key);
 
-  final Color color;
+  final MaterialColor color;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: this.color,
+        primarySwatch: color,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -39,18 +40,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  MethodChannel _channel;
+  int? _counter = 0;
+  late MethodChannel _channel;
 
   @override
   void initState() {
     super.initState();
-    _channel = MethodChannel('multiple-flutters');
-    _channel.setMethodCallHandler((MethodCall call) async {
+    _channel = const MethodChannel('multiple-flutters');
+    _channel.setMethodCallHandler((call) async {
       if (call.method == "setCount") {
         // A notification that the host platform's data model has been updated.
         setState(() {
-          _counter = call.arguments as int;
+          _counter = call.arguments as int?;
         });
       } else {
         throw Exception('not implemented ${call.method}');
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     // Mutations to the data model are forwarded to the host platform.
-    _channel.invokeMethod("incrementCount", _counter);
+    _channel.invokeMethod<void>("incrementCount", _counter);
   }
 
   @override
@@ -72,8 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
+          children: [
+            const Text(
               'You have pushed the button this many times:',
             ),
             Text(
@@ -82,13 +83,24 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(
               onPressed: _incrementCounter,
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
             TextButton(
               onPressed: () {
-                _channel.invokeMethod("next", _counter);
+                _channel.invokeMethod<void>("next", _counter);
               },
-              child: Text('Next'),
+              child: const Text('Next'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                // Use the url_launcher plugin to open the Flutter docs in
+                // a browser.
+                const url = 'https://flutter.dev/docs';
+                if (await launcher.canLaunch(url)) {
+                  launcher.launch(url);
+                }
+              },
+              child: const Text('Open Flutter Docs'),
             ),
           ],
         ),

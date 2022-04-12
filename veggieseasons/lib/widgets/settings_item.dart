@@ -16,11 +16,11 @@ import 'package:veggieseasons/styles.dart';
 typedef SettingsItemCallback = FutureOr<void> Function();
 
 class SettingsNavigationIndicator extends StatelessWidget {
-  const SettingsNavigationIndicator({Key key}) : super(key: key);
+  const SettingsNavigationIndicator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    return const Icon(
       CupertinoIcons.forward,
       color: Styles.settingsMediumGray,
       size: 21,
@@ -30,12 +30,11 @@ class SettingsNavigationIndicator extends StatelessWidget {
 
 class SettingsIcon extends StatelessWidget {
   const SettingsIcon({
-    @required this.icon,
+    required this.icon,
     this.foregroundColor = CupertinoColors.white,
     this.backgroundColor = CupertinoColors.black,
-    Key key,
-  })  : assert(icon != null),
-        super(key: key);
+    Key? key,
+  }) : super(key: key);
 
   final Color backgroundColor;
   final Color foregroundColor;
@@ -61,20 +60,19 @@ class SettingsIcon extends StatelessWidget {
 
 class SettingsItem extends StatefulWidget {
   const SettingsItem({
-    @required this.label,
+    required this.label,
     this.icon,
     this.content,
     this.subtitle,
     this.onPress,
-    Key key,
-  })  : assert(label != null),
-        super(key: key);
+    Key? key,
+  }) : super(key: key);
 
   final String label;
-  final Widget icon;
-  final Widget content;
-  final String subtitle;
-  final SettingsItemCallback onPress;
+  final Widget? icon;
+  final Widget? content;
+  final String? subtitle;
+  final SettingsItemCallback? onPress;
 
   @override
   State<StatefulWidget> createState() => SettingsItemState();
@@ -97,9 +95,9 @@ class SettingsItemState extends State<SettingsItem> {
             setState(() {
               pressed = true;
             });
-            await widget.onPress();
+            await widget.onPress!();
             Future.delayed(
-              Duration(milliseconds: 150),
+              const Duration(milliseconds: 150),
               () {
                 setState(() {
                   pressed = false;
@@ -132,19 +130,19 @@ class SettingsItemState extends State<SettingsItem> {
                   child: widget.subtitle != null
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(height: 8.5),
+                          children: [
+                            const SizedBox(height: 8.5),
                             Text(widget.label,
                                 style: themeData.textTheme.textStyle),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
-                              widget.subtitle,
+                              widget.subtitle!,
                               style: Styles.settingsItemSubtitleText(themeData),
                             ),
                           ],
                         )
                       : Padding(
-                          padding: EdgeInsets.only(top: 1.5),
+                          padding: const EdgeInsets.only(top: 1.5),
                           child: Text(widget.label,
                               style: themeData.textTheme.textStyle),
                         ),

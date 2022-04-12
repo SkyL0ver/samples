@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:testing_app/models/favorites.dart';
 import 'package:testing_app/screens/favorites.dart';
 
-Favorites favoritesList;
+late Favorites favoritesList;
 
 Widget createFavoritesScreen() => ChangeNotifierProvider<Favorites>(
       create: (context) {
         favoritesList = Favorites();
         return favoritesList;
       },
-      child: MaterialApp(
+      child: const MaterialApp(
         home: FavoritesPage(),
       ),
     );
@@ -53,15 +53,17 @@ void main() {
       await tester.pumpAndSettle();
 
       // Get the total number of items available.
-      var totalItems = tester.widgetList(find.byIcon(Icons.close)).length;
+      final totalItems = tester.widgetList(find.byIcon(Icons.close)).length;
 
       // Remove one item.
       await tester.tap(find.byIcon(Icons.close).first);
       await tester.pumpAndSettle();
 
       // Check if removed properly.
-      expect(tester.widgetList(find.byIcon(Icons.close)).length,
-          lessThan(totalItems));
+      expect(
+        tester.widgetList(find.byIcon(Icons.close)).length,
+        lessThan(totalItems),
+      );
 
       // Verify if the appropriate message is shown.
       expect(find.text('Removed from favorites.'), findsOneWidget);

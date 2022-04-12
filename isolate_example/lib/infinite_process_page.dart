@@ -19,16 +19,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class InfiniteProcessPageStarter extends StatelessWidget {
+  const InfiniteProcessPageStarter({Key? key}) : super(key: key);
+
   @override
   Widget build(context) {
     return ChangeNotifierProvider(
       create: (context) => InfiniteProcessIsolateController(),
-      child: InfiniteProcessPage(),
+      child: const InfiniteProcessPage(),
     );
   }
 }
 
 class InfiniteProcessPage extends StatelessWidget {
+  const InfiniteProcessPage({Key? key}) : super(key: key);
+
   @override
   Widget build(context) {
     final controller = Provider.of<InfiniteProcessIsolateController>(context);
@@ -44,7 +48,7 @@ class InfiniteProcessPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
-          Expanded(
+          const Expanded(
             child: RunningList(),
           ),
           Column(
@@ -76,7 +80,7 @@ class InfiniteProcessPage extends StatelessWidget {
                     inactiveTrackColor: Colors.deepOrangeAccent,
                     inactiveThumbColor: Colors.black,
                   ),
-                  Text('Pause/Resume'),
+                  const Text('Pause/Resume'),
                 ],
               ),
               Row(
@@ -183,6 +187,8 @@ class InfiniteProcessIsolateController extends ChangeNotifier {
 }
 
 class RunningList extends StatelessWidget {
+  const RunningList({Key? key}) : super(key: key);
+
   @override
   Widget build(context) {
     final controller = Provider.of<InfiniteProcessIsolateController>(context);
@@ -207,7 +213,7 @@ class RunningList extends StatelessWidget {
                     ? Colors.lightGreenAccent
                     : Colors.deepOrangeAccent,
               ),
-              Divider(
+              const Divider(
                 color: Colors.blue,
                 height: 3,
               ),

@@ -9,10 +9,10 @@ import 'package:flutter/services.dart';
 /// This class includes two methods [addPetDetails] and [removePet] which are used
 /// to add a new pet and remove a pet from the the list respectively.
 class PetListMessageChannel {
-  static final _jsonMessageCodecChannel =
+  static const _jsonMessageCodecChannel =
       BasicMessageChannel<dynamic>('jsonMessageCodecDemo', JSONMessageCodec());
 
-  static final _binaryCodecChannel =
+  static const _binaryCodecChannel =
       BasicMessageChannel('binaryCodecDemo', BinaryCodec());
 
   /// Method to add a new pet to the list.
@@ -44,7 +44,7 @@ class PetListMessageChannel {
 /// A model class that provides [petList] which is received from platform.
 class PetListModel {
   PetListModel({
-    this.petList,
+    required this.petList,
   });
 
   final List<PetDetails> petList;
@@ -65,8 +65,8 @@ class PetListModel {
 /// A simple model that provides pet details like [petType] and [breed] of pet.
 class PetDetails {
   PetDetails({
-    this.petType,
-    this.breed,
+    required this.petType,
+    required this.breed,
   });
 
   final String petType;

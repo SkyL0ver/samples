@@ -17,7 +17,7 @@ void main() {
     binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
     testWidgets('Scrolling test', (tester) async {
-      await tester.pumpWidget(TestingApp());
+      await tester.pumpWidget(const TestingApp());
 
       // Create variables for finders that are used multiple times.
       final listFinder = find.byType(ListView);
@@ -28,7 +28,7 @@ void main() {
       await binding.watchPerformance(
         () async {
           // Quickly scroll all the way down.
-          await scroller.animateTo(
+          await scroller!.animateTo(
             7000,
             duration: const Duration(seconds: 1),
             curve: Curves.linear,
@@ -49,7 +49,7 @@ void main() {
     });
 
     testWidgets('Favorites operations test', (tester) async {
-      await tester.pumpWidget(TestingApp());
+      await tester.pumpWidget(const TestingApp());
 
       // Record the performance summary as operations are performed
       // on the favorites list.
@@ -66,7 +66,7 @@ void main() {
           for (var icon in iconKeys) {
             // Tap onto the icon.
             await tester.tap(find.byKey(ValueKey(icon)));
-            await tester.pumpAndSettle(Duration(seconds: 1));
+            await tester.pumpAndSettle(const Duration(seconds: 1));
 
             // Verify if appropriate message appears.
             expect(find.text('Added to favorites.'), findsOneWidget);
@@ -87,7 +87,7 @@ void main() {
           for (final iconKey in removeIconKeys) {
             // Tap onto the remove icon.
             await tester.tap(find.byKey(ValueKey(iconKey)));
-            await tester.pumpAndSettle(Duration(seconds: 1));
+            await tester.pumpAndSettle(const Duration(seconds: 1));
 
             // Verify if appropriate message appears.
             expect(find.text('Removed from favorites.'), findsOneWidget);
