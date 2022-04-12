@@ -3,20 +3,24 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "version.json": "e4796c6eeace7d7897bf0b66b0acb15e",
+  "main.dart.js": "d033d6ec0ce15a682157ba7155bdf98a",
 "index.html": "51839f812a32cce7ac40ca488295da30",
 "/": "51839f812a32cce7ac40ca488295da30",
-"main.dart.js": "d68036a6838d25a201bb0f421aa7539f",
 "assets/AssetManifest.json": "9fe712ba1ba0aebba619e2e9de60fc0f",
-"assets/NOTICES": "673fe8c84ceb19fbeb6d7af232a128fa",
 "assets/FontManifest.json": "d751713988987e9331980363e24189ce",
 "assets/assets/preview.png": "f41b57a2a2dab8d74ade52f9175b4a59",
-"assets/github_data/contributors.json": "4f7b5d7640ca5ab67ee419df55a4833f",
-"assets/github_data/comments.tsv": "062efd1b6e583ce9b71fd1c655f101cd",
 "assets/github_data/forks.tsv": "307c19f9166eb30ffe34a8de50ac7b57",
 "assets/github_data/commits.tsv": "684e345ed4d734f5b4a890098d175b37",
+"assets/github_data/stars.tsv": "f949dd28b49c2374880c22b2c8937a76",
+"assets/github_data/contributors.json": "4f7b5d7640ca5ab67ee419df55a4833f",
 "assets/github_data/pull_requests.tsv": "583f0c3151b9234502a7037bf9735494",
-"assets/github_data/stars.tsv": "f949dd28b49c2374880c22b2c8937a76"
+"assets/github_data/comments.tsv": "062efd1b6e583ce9b71fd1c655f101cd",
+"assets/NOTICES": "d87de9f86789e77ab114fc2475cea2fb",
+"version.json": "ff2d7b9d108edf1118c26085e5decea6",
+"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
+"canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
+"canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
+"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -34,7 +38,7 @@ self.addEventListener("install", (event) => {
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
-        CORE.map((value) => new Request(value + '?revision=' + RESOURCES[value], {'cache': 'reload'})));
+        CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });
@@ -160,7 +164,7 @@ async function downloadOffline() {
     }
     currentContent[key] = true;
   }
-  for (var resourceKey in Object.keys(RESOURCES)) {
+  for (var resourceKey of Object.keys(RESOURCES)) {
     if (!currentContent[resourceKey]) {
       resources.push(resourceKey);
     }

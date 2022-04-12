@@ -1,11 +1,11 @@
 {
-    "name": "slide_puzzle",
-    "short_name": "slide_puzzle",
+    "name": "Slide Puzzle",
+    "short_name": "Slide Puzzle",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A slide puzzle built for Flutter Challenge",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
