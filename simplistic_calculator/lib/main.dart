@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:io';
+import 'dart:io' show Platform;
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -101,29 +101,30 @@ class CalculatorEngine extends StateNotifier<CalculatorState> {
       final exp = parser.parse(state.buffer);
       final result = exp.evaluate(EvaluationType.REAL, cm) as double;
 
-      if (result.isInfinite) {
-        state = state.copyWith(
-          error: 'Result is Infinite',
-          buffer: '',
-          mode: CalculatorEngineMode.result,
-        );
-      } else if (result.isNaN) {
-        state = state.copyWith(
-          error: 'Result is Not a Number',
-          buffer: '',
-          mode: CalculatorEngineMode.result,
-        );
-      } else {
-        final resultStr = result.ceil() == result
-            ? result.toInt().toString()
-            : result.toString();
-        state = state.copyWith(
-            buffer: resultStr,
+      switch (result) {
+        case double(isInfinite: true):
+          state = state.copyWith(
+            error: 'Result is Infinite',
+            buffer: '',
             mode: CalculatorEngineMode.result,
-            calcHistory: [
-              '${state.buffer} = $resultStr',
-              ...state.calcHistory,
-            ]);
+          );
+        case double(isNaN: true):
+          state = state.copyWith(
+            error: 'Result is Not a Number',
+            buffer: '',
+            mode: CalculatorEngineMode.result,
+          );
+        default:
+          final resultStr = result.ceil() == result
+              ? result.toInt().toString()
+              : result.toString();
+          state = state.copyWith(
+              buffer: resultStr,
+              mode: CalculatorEngineMode.result,
+              calcHistory: [
+                '${state.buffer} = $resultStr',
+                ...state.calcHistory,
+              ]);
       }
     } catch (err) {
       state = state.copyWith(
@@ -338,7 +339,7 @@ final buttonDefinitions = <ButtonDefinition>[
 ];
 
 class CalculatorApp extends ConsumerWidget {
-  const CalculatorApp({Key? key}) : super(key: key);
+  const CalculatorApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -346,6 +347,7 @@ class CalculatorApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(useMaterial3: true),
       home: Scaffold(
         body: Container(
           color: Colors.white,
@@ -448,15 +450,16 @@ class CalculatorApp extends ConsumerWidget {
 }
 
 typedef CalculatorEngineCallback = void Function(CalculatorEngine engine);
+
 enum CalcButtonType { outlined, elevated }
 
 class CalcButton extends ConsumerWidget {
   const CalcButton({
-    Key? key,
+    super.key,
     required this.op,
     required this.label,
     required this.type,
-  }) : super(key: key);
+  });
 
   final CalculatorEngineCallback op;
   final String label;
@@ -464,14 +467,17 @@ class CalcButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final buttonConstructor = type == CalcButtonType.elevated
-        ? ElevatedButton.new
-        : OutlinedButton.new;
+    final buttonConstructor = switch (type) {
+      CalcButtonType.elevated => ElevatedButton.new,
+      _ => OutlinedButton.new,
+    };
 
     return SizedBox.expand(
       child: Padding(
         padding: const EdgeInsets.all(4),
         child: buttonConstructor(
+          autofocus: false,
+          clipBehavior: Clip.none,
           onPressed: () => op(ref.read(calculatorStateProvider.notifier)),
           child: AutoSizeText(
             label,

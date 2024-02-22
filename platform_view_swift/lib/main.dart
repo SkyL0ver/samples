@@ -12,7 +12,7 @@ void main() {
 }
 
 class PlatformView extends StatelessWidget {
-  const PlatformView({Key key}) : super(key: key);
+  const PlatformView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,7 @@ class PlatformView extends StatelessWidget {
       title: 'Platform View',
       theme: ThemeData(
         primarySwatch: Colors.grey,
+        useMaterial3: true,
       ),
       home: const HomePage(),
     );
@@ -27,12 +28,10 @@ class PlatformView extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({
-    Key key,
-  }) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -44,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _launchPlatformCount() async {
     final platformCounter =
         await _methodChannel.invokeMethod<int>('switchView', _counter);
-    setState(() => _counter = platformCounter);
+    setState(() => _counter = platformCounter ?? 0);
   }
 
   @override
@@ -63,12 +62,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     'Button tapped $_counter time${_counter == 1 ? '' : 's'}.',
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 18),
                   ElevatedButton(
-                    child: const Text('Continue in iOS view'),
                     onPressed: _launchPlatformCount,
+                    child: const Text('Continue in iOS view'),
                   ),
                 ],
               ),
@@ -81,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                 const FlutterLogo(),
                 Text(
                   'Flutter',
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ],
             ),

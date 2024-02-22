@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:veggieseasons/data/veggie.dart';
-import 'package:veggieseasons/screens/details.dart';
 import 'package:veggieseasons/styles.dart';
 
 class ZoomClipAssetImage extends StatelessWidget {
@@ -13,8 +13,8 @@ class ZoomClipAssetImage extends StatelessWidget {
     this.height,
     this.width,
     required this.imageAsset,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final double zoom;
   final double? height;
@@ -45,7 +45,7 @@ class ZoomClipAssetImage extends StatelessWidget {
 class VeggieHeadline extends StatelessWidget {
   final Veggie veggie;
 
-  const VeggieHeadline(this.veggie, {Key? key}) : super(key: key);
+  const VeggieHeadline(this.veggie, {super.key});
 
   List<Widget> _buildSeasonDots(List<Season> seasons) {
     var widgets = <Widget>[];
@@ -72,7 +72,13 @@ class VeggieHeadline extends StatelessWidget {
     final themeData = CupertinoTheme.of(context);
 
     return GestureDetector(
-      onTap: () => DetailsScreen.show(Navigator.of(context), veggie.id),
+      onTap: () {
+        // GoRouter does not support relative routes,
+        // so navigate to the absolute route, which can be either
+        // `/favorites/details/${veggie.id}` or `/search/details/${veggie.id}`
+        // see https://github.com/flutter/flutter/issues/108177
+        context.go('${GoRouter.of(context).location}/details/${veggie.id}');
+      },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -4,15 +4,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:platform_channels/src/pet_list_message_channel.dart';
 
 /// Demonstrates how to use [BasicMessageChannel] to send & receive the platform
 /// Message.
 class PetListScreen extends StatefulWidget {
-  const PetListScreen({Key? key}) : super(key: key);
+  const PetListScreen({super.key});
 
   @override
-  _PetListScreenState createState() => _PetListScreenState();
+  State<PetListScreen> createState() => _PetListScreenState();
 }
 
 class _PetListScreenState extends State<PetListScreen> {
@@ -20,14 +21,19 @@ class _PetListScreenState extends State<PetListScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     // Receives a string of json object from the platform and converts it
     // to PetModel.
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     const BasicMessageChannel<String?>('stringCodecDemo', StringCodec())
         .setMessageHandler((message) async {
       if (message == null) {
-        showSnackBar('An error occurred while adding pet details.', context);
+        scaffoldMessenger.showSnackBar(
+          const SnackBar(
+            content: Text('An error occurred while adding pet details.'),
+          ),
+        );
       } else {
         setState(() {
           petListModel = PetListModel.fromJson(message);
@@ -47,7 +53,7 @@ class _PetListScreenState extends State<PetListScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.pushNamed(context, '/addPetDetails');
+          context.go('/petListScreen/addPetDetails');
         },
       ),
       body: petListModel.petList.isEmpty
@@ -61,7 +67,7 @@ class _PetListScreenState extends State<PetListScreen> {
 class BuildPetList extends StatelessWidget {
   final List<PetDetails> petList;
 
-  const BuildPetList(this.petList, {Key? key}) : super(key: key);
+  const BuildPetList(this.petList, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,11 +83,16 @@ class BuildPetList extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () async {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
               try {
                 await PetListMessageChannel.removePet(index);
-                showSnackBar('Removed successfully!', context);
+                scaffoldMessenger.showSnackBar(
+                  const SnackBar(content: Text('Removed successfully!')),
+                );
               } catch (error) {
-                showSnackBar((error as PlatformException).message!, context);
+                scaffoldMessenger.showSnackBar(SnackBar(
+                  content: Text((error as PlatformException).message!),
+                ));
               }
             },
           ),
@@ -89,10 +100,4 @@ class BuildPetList extends StatelessWidget {
       },
     );
   }
-}
-
-void showSnackBar(String message, BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(message),
-  ));
 }

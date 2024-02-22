@@ -8,10 +8,10 @@ import 'package:web_dashboard/src/api/api.dart';
 import 'package:web_dashboard/src/app.dart';
 
 class NewCategoryForm extends StatefulWidget {
-  const NewCategoryForm({Key? key}) : super(key: key);
+  const NewCategoryForm({super.key});
 
   @override
-  _NewCategoryFormState createState() => _NewCategoryFormState();
+  State<NewCategoryForm> createState() => _NewCategoryFormState();
 }
 
 class _NewCategoryFormState extends State<NewCategoryForm> {
@@ -39,11 +39,11 @@ class EditCategoryForm extends StatefulWidget {
   const EditCategoryForm({
     required this.category,
     required this.onDone,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _EditCategoryFormState createState() => _EditCategoryFormState();
+  State<EditCategoryForm> createState() => _EditCategoryFormState();
 }
 
 class _EditCategoryFormState extends State<EditCategoryForm> {
@@ -79,7 +79,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: ElevatedButton(
+                child: FilledButton(
                   child: const Text('Cancel'),
                   onPressed: () {
                     widget.onDone(false);
@@ -88,7 +88,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: ElevatedButton(
+                child: FilledButton(
                   child: const Text('OK'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

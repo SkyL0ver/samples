@@ -5,17 +5,17 @@
 import 'package:pigeon/pigeon.dart';
 
 class Book {
-  String title;
-  String subtitle;
-  String author;
-  String summary;
-  String publishDate;
-  int pageCount;
-  Thumbnail thumbnail;
+  String? title;
+  String? subtitle;
+  String? author;
+  String? summary;
+  String? publishDate;
+  int? pageCount;
+  Thumbnail? thumbnail;
 }
 
 class Thumbnail {
-  String url;
+  String? url;
 }
 
 @FlutterApi()

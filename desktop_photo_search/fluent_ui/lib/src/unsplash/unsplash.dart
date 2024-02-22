@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -72,9 +73,7 @@ class Unsplash {
       throw UnsplashException(apiError.errors!.join(', '));
     }
 
-    return SearchPhotosResponse.fromJson(
-      response.body,
-    );
+    return SearchPhotosResponse.fromJson(json.encode(body));
   }
 
   Future<Uint8List> download(Photo photo) async {
@@ -88,10 +87,10 @@ class Unsplash {
     });
 
     _log.info('GET ${photo.links!.downloadLocation}');
-    http.get(Uri.parse(photo.links!.downloadLocation!), headers: {
+    unawaited(http.get(Uri.parse(photo.links!.downloadLocation!), headers: {
       'Accept-Version': 'v1',
       'Authorization': 'Client-ID $_accessKey',
-    });
+    }));
 
     return futureBytes;
   }

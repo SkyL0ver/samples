@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:veggieseasons/data/app_state.dart';
 import 'package:veggieseasons/data/preferences.dart';
@@ -12,7 +13,7 @@ import 'package:veggieseasons/widgets/close_button.dart';
 import 'package:veggieseasons/widgets/trivia.dart';
 
 class ServingInfoChart extends StatelessWidget {
-  const ServingInfoChart(this.veggie, this.prefs, {Key? key}) : super(key: key);
+  const ServingInfoChart(this.veggie, this.prefs, {super.key});
 
   final Veggie veggie;
 
@@ -157,7 +158,7 @@ class ServingInfoChart extends StatelessWidget {
 class InfoView extends StatelessWidget {
   final int? id;
 
-  const InfoView(this.id, {Key? key}) : super(key: key);
+  const InfoView(this.id, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -238,24 +239,10 @@ class DetailsScreen extends StatefulWidget {
   final int? id;
   final String? restorationId;
 
-  const DetailsScreen({this.id, this.restorationId, Key? key})
-      : super(key: key);
-
-  static String show(NavigatorState navigator, int veggieId) {
-    return navigator.restorablePush<void>(_routeBuilder, arguments: veggieId);
-  }
-
-  static Route<void> _routeBuilder(BuildContext context, Object? arguments) {
-    final veggieId = arguments as int?;
-    return CupertinoPageRoute(
-      builder: (context) =>
-          DetailsScreen(id: veggieId, restorationId: 'details'),
-      fullscreenDialog: true,
-    );
-  }
+  const DetailsScreen({this.id, this.restorationId, super.key});
 
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
 class _DetailsScreenState extends State<DetailsScreen> with RestorationMixin {
@@ -296,7 +283,7 @@ class _DetailsScreenState extends State<DetailsScreen> with RestorationMixin {
             left: 16,
             child: SafeArea(
               child: CloseButton(() {
-                Navigator.of(context).pop();
+                context.pop();
               }),
             ),
           ),

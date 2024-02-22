@@ -6,10 +6,10 @@ import 'package:english_words/english_words.dart' as english_words;
 import 'package:flutter/material.dart';
 
 class FormValidationDemo extends StatefulWidget {
-  const FormValidationDemo({Key? key}) : super(key: key);
+  const FormValidationDemo({super.key});
 
   @override
-  _FormValidationDemoState createState() => _FormValidationDemoState();
+  State<FormValidationDemo> createState() => _FormValidationDemoState();
 }
 
 class _FormValidationDemoState extends State<FormValidationDemo> {
@@ -27,7 +27,6 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: TextButton(
-              style: TextButton.styleFrom(primary: Colors.white),
               child: const Text('Submit'),
               onPressed: () {
                 // Validate the form by getting the FormState from the GlobalKey
@@ -142,7 +141,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                             ),
                             Text(
                               'I agree to the terms of service.',
-                              style: Theme.of(context).textTheme.subtitle1,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ],
                         ),
@@ -151,8 +150,9 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
                             formFieldState.errorText ?? "",
                             style: Theme.of(context)
                                 .textTheme
-                                .caption!
-                                .copyWith(color: Theme.of(context).errorColor),
+                                .bodySmall!
+                                .copyWith(
+                                    color: Theme.of(context).colorScheme.error),
                           ),
                       ],
                     );

@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:testing_app/models/favorites.dart';
 
 class FavoritesPage extends StatelessWidget {
-  static const routeName = '/favorites_page';
+  static const routeName = 'favorites_page';
+  static const fullPath = '/$routeName';
 
-  const FavoritesPage({Key? key}) : super(key: key);
+  const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class FavoritesPage extends StatelessWidget {
 class FavoriteItemTile extends StatelessWidget {
   final int itemNo;
 
-  const FavoriteItemTile(this.itemNo, {Key? key}) : super(key: key);
+  const FavoriteItemTile(this.itemNo, {super.key});
 
   @override
   Widget build(BuildContext context) {

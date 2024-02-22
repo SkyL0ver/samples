@@ -14,7 +14,7 @@ import 'package:path/path.dart' as p;
 
 import 'common.dart';
 
-main(List<String> args) async {
+void main(List<String> args) async {
   final buildDir = args[0];
   final fileMap =
       (jsonDecode(args[1]) as Map<String, dynamic>).cast<String, String>();
@@ -42,8 +42,8 @@ main(List<String> args) async {
 
   // Build the sample index and copy the files into this directory
   print('building the sample index...');
-  await run('samples_index', 'pub', ['get']);
-  await run('samples_index', 'pub', ['run', 'grinder', 'deploy']);
+  await run('samples_index', 'flutter', ['pub', 'get']);
+  await run('samples_index', 'flutter', ['pub', 'run', 'grinder', 'deploy']);
 
   // Copy the contents of the samples_index/public directory to the build
   // directory

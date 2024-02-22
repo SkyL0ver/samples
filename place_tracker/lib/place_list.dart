@@ -3,20 +3,20 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'place.dart';
-import 'place_details.dart';
 import 'place_tracker_app.dart';
 
 class PlaceList extends StatefulWidget {
-  const PlaceList({Key? key}) : super(key: key);
+  const PlaceList({super.key});
 
   @override
-  PlaceListState createState() => PlaceListState();
+  State<PlaceList> createState() => _PlaceListState();
 }
 
-class PlaceListState extends State<PlaceList> {
+class _PlaceListState extends State<PlaceList> {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -35,10 +35,7 @@ class PlaceListState extends State<PlaceList> {
             shrinkWrap: true,
             children: state.places
                 .where((place) => place.category == state.selectedCategory)
-                .map((place) => _PlaceListTile(
-                      place: place,
-                      onPlaceChanged: (value) => _onPlaceChanged(value),
-                    ))
+                .map((place) => _PlaceListTile(place: place))
                 .toList(),
           ),
         ),
@@ -51,16 +48,6 @@ class PlaceListState extends State<PlaceList> {
     Provider.of<AppState>(context, listen: false)
         .setSelectedCategory(newCategory);
   }
-
-  void _onPlaceChanged(Place value) {
-    // Replace the place with the modified version.
-    final newPlaces =
-        List<Place>.from(Provider.of<AppState>(context, listen: false).places);
-    final index = newPlaces.indexWhere((place) => place.id == value.id);
-    newPlaces[index] = value;
-
-    Provider.of<AppState>(context, listen: false).setPlaces(newPlaces);
-  }
 }
 
 class _CategoryButton extends StatelessWidget {
@@ -68,26 +55,20 @@ class _CategoryButton extends StatelessWidget {
 
   final bool selected;
   final ValueChanged<PlaceCategory> onCategoryChanged;
+
   const _CategoryButton({
-    Key? key,
     required this.category,
     required this.selected,
     required this.onCategoryChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    late String _buttonText;
-    switch (category) {
-      case PlaceCategory.favorite:
-        _buttonText = 'Favorites';
-        break;
-      case PlaceCategory.visited:
-        _buttonText = 'Visited';
-        break;
-      case PlaceCategory.wantToGo:
-        _buttonText = 'Want To Go';
-    }
+    final buttonText = switch (category) {
+      PlaceCategory.favorite => 'Favorites',
+      PlaceCategory.visited => 'Visited',
+      PlaceCategory.wantToGo => 'Want To Go'
+    };
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12.0),
@@ -102,7 +83,7 @@ class _CategoryButton extends StatelessWidget {
         height: 50.0,
         child: TextButton(
           child: Text(
-            _buttonText,
+            buttonText,
             style: TextStyle(
               fontSize: selected ? 20.0 : 18.0,
               color: selected ? Colors.blue : Colors.black87,
@@ -119,11 +100,11 @@ class _ListCategoryButtonBar extends StatelessWidget {
   final PlaceCategory selectedCategory;
 
   final ValueChanged<PlaceCategory> onCategoryChanged;
+
   const _ListCategoryButtonBar({
-    Key? key,
     required this.selectedCategory,
     required this.onCategoryChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -153,25 +134,14 @@ class _ListCategoryButtonBar extends StatelessWidget {
 class _PlaceListTile extends StatelessWidget {
   final Place place;
 
-  final ValueChanged<Place> onPlaceChanged;
   const _PlaceListTile({
-    Key? key,
     required this.place,
-    required this.onPlaceChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.push<void>(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return PlaceDetails(
-            place: place,
-            onChanged: (value) => onPlaceChanged(value),
-          );
-        }),
-      ),
+      onTap: () => context.go('/place/${place.id}'),
       child: Container(
         padding: const EdgeInsets.only(top: 16.0),
         child: Column(
@@ -199,7 +169,7 @@ class _PlaceListTile extends StatelessWidget {
             ),
             Text(
               place.description ?? '',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
             ),

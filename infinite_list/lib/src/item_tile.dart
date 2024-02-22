@@ -11,7 +11,7 @@ import 'api/item.dart';
 class ItemTile extends StatelessWidget {
   final Item item;
 
-  const ItemTile({required this.item, Key? key}) : super(key: key);
+  const ItemTile({required this.item, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ItemTile extends StatelessWidget {
             color: item.color,
           ),
         ),
-        title: Text(item.name, style: Theme.of(context).textTheme.headline6),
+        title: Text(item.name, style: Theme.of(context).textTheme.titleLarge),
         trailing: Text('\$ ${(item.price / 100).toStringAsFixed(2)}'),
       ),
     );
@@ -34,7 +34,7 @@ class ItemTile extends StatelessWidget {
 /// This is the widget responsible for building the "still loading" item
 /// in the list (represented with "..." and a crossed square).
 class LoadingItemTile extends StatelessWidget {
-  const LoadingItemTile({Key? key}) : super(key: key);
+  const LoadingItemTile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class LoadingItemTile extends StatelessWidget {
           aspectRatio: 1,
           child: Placeholder(),
         ),
-        title: Text('...', style: Theme.of(context).textTheme.headline6),
+        title: Text('...', style: Theme.of(context).textTheme.titleLarge),
         trailing: const Text('\$ ...'),
       ),
     );

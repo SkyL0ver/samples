@@ -5,11 +5,11 @@
 import 'package:flutter/material.dart';
 
 class AnimatedListDemo extends StatefulWidget {
-  const AnimatedListDemo({Key? key}) : super(key: key);
-  static String routeName = '/misc/animated_list';
+  const AnimatedListDemo({super.key});
+  static String routeName = 'misc/animated_list';
 
   @override
-  _AnimatedListDemoState createState() => _AnimatedListDemoState();
+  State<AnimatedListDemo> createState() => _AnimatedListDemoState();
 }
 
 class _AnimatedListDemoState extends State<AnimatedListDemo> {

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:testing_app/models/favorites.dart';
 import 'package:testing_app/screens/favorites.dart';
@@ -10,7 +11,7 @@ import 'package:testing_app/screens/favorites.dart';
 class HomePage extends StatelessWidget {
   static const routeName = '/';
 
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,8 @@ class HomePage extends StatelessWidget {
         title: const Text('Testing Sample'),
         actions: [
           TextButton.icon(
-            style: TextButton.styleFrom(primary: Colors.white),
             onPressed: () {
-              Navigator.pushNamed(context, FavoritesPage.routeName);
+              context.go(FavoritesPage.fullPath);
             },
             icon: const Icon(Icons.favorite_border),
             label: const Text('Favorites'),
@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
 class ItemTile extends StatelessWidget {
   final int itemNo;
 
-  const ItemTile(this.itemNo, {Key? key}) : super(key: key);
+  const ItemTile(this.itemNo, {super.key});
 
   @override
   Widget build(BuildContext context) {

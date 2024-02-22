@@ -13,14 +13,14 @@ class DefaultRulesPage extends StatelessWidget {
 
   const DefaultRulesPage({
     required this.profile,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final isDesktop = isDisplayLarge(context);
     final isTablet = isDisplayMedium(context);
-    var textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
     final startPadding = isTablet
         ? 60.0
         : isDesktop
@@ -35,8 +35,8 @@ class DefaultRulesPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           profile.name,
-          style: textTheme.subtitle2!.copyWith(
-            color: textTheme.bodyText1!.color,
+          style: textTheme.titleSmall!.copyWith(
+            color: textTheme.bodyLarge!.color,
           ),
         ),
         leading: Padding(

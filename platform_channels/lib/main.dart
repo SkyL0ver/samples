@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:platform_channels/src/add_pet_details.dart';
 import 'package:platform_channels/src/event_channel_demo.dart';
 import 'package:platform_channels/src/method_channel_demo.dart';
@@ -14,27 +15,57 @@ void main() {
 }
 
 class PlatformChannelSample extends StatelessWidget {
-  const PlatformChannelSample({Key? key}) : super(key: key);
+  const PlatformChannelSample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        '/methodChannelDemo': (context) => const MethodChannelDemo(),
-        '/eventChannelDemo': (context) => const EventChannelDemo(),
-        '/platformImageDemo': (context) => const PlatformImageDemo(),
-        '/petListScreen': (context) => const PetListScreen(),
-        '/addPetDetails': (context) => const AddPetDetails(),
-      },
+    return MaterialApp.router(
       title: 'Platform Channel Sample',
       theme: ThemeData(
         snackBarTheme: SnackBarThemeData(
           backgroundColor: Colors.blue[500],
         ),
+        useMaterial3: true,
       ),
-      home: const HomePage(),
+      routerConfig: router(),
     );
   }
+}
+
+GoRouter router([String? initialLocation]) {
+  return GoRouter(
+    initialLocation: initialLocation ?? '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomePage(),
+        routes: [
+          GoRoute(
+            path: 'methodChannelDemo',
+            builder: (context, state) => const MethodChannelDemo(),
+          ),
+          GoRoute(
+            path: 'eventChannelDemo',
+            builder: (context, state) => const EventChannelDemo(),
+          ),
+          GoRoute(
+            path: 'platformImageDemo',
+            builder: (context, state) => const PlatformImageDemo(),
+          ),
+          GoRoute(
+            path: 'petListScreen',
+            builder: (context, state) => const PetListScreen(),
+            routes: [
+              GoRoute(
+                path: 'addPetDetails',
+                builder: (context, state) => const AddPetDetails(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
 }
 
 class DemoInfo {
@@ -64,7 +95,7 @@ List<DemoInfo> demoList = [
 ];
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +114,14 @@ class HomePage extends StatelessWidget {
 class DemoTile extends StatelessWidget {
   final DemoInfo demoInfo;
 
-  const DemoTile(this.demoInfo, {Key? key}) : super(key: key);
+  const DemoTile(this.demoInfo, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(demoInfo.demoTitle),
       onTap: () {
-        Navigator.pushNamed(context, demoInfo.demoRoute);
+        context.go(demoInfo.demoRoute);
       },
     );
   }

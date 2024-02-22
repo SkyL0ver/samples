@@ -7,9 +7,14 @@ import 'package:path/path.dart' as p;
 import 'common.dart';
 import 'fix_base_tags.dart';
 
-final ignoredDirectories = ['_tool', 'samples_index'];
+const ignoredDirectories = [
+  '_tool',
+  '_packages/web_startup_analyzer',
+  '_packages/web_startup_analyzer/example',
+  'samples_index'
+];
 
-main() async {
+void main() async {
   final packageDirs = [
     ...listPackageDirs(Directory.current)
         .map((path) => p.relative(path, from: Directory.current.path))
@@ -17,8 +22,8 @@ main() async {
   ];
 
   print('Building the sample index...');
-  await _run('samples_index', 'pub', ['get']);
-  await _run('samples_index', 'pub', ['run', 'grinder', 'deploy']);
+  await _run('samples_index', 'flutter', ['pub', 'get']);
+  await _run('samples_index', 'flutter', ['pub', 'run', 'grinder', 'deploy']);
 
   // Create the directory each Flutter Web sample lives in
   Directory(p.join(Directory.current.path, 'samples_index', 'public', 'web'))

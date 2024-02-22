@@ -5,16 +5,17 @@
 import 'package:flutter/material.dart';
 
 import '../data.dart';
-import '../routing.dart';
 import '../widgets/book_list.dart';
 
 class AuthorDetailsScreen extends StatelessWidget {
   final Author author;
+  final ValueChanged<Book> onBookTapped;
 
   const AuthorDetailsScreen({
-    Key? key,
+    super.key,
     required this.author,
-  }) : super(key: key);
+    required this.onBookTapped,
+  });
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -28,7 +29,7 @@ class AuthorDetailsScreen extends StatelessWidget {
                 child: BookList(
                   books: author.books,
                   onTap: (book) {
-                    RouteStateScope.of(context).go('/book/${book.id}');
+                    onBookTapped(book);
                   },
                 ),
               ),

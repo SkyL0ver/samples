@@ -16,11 +16,11 @@ class HomePage extends StatefulWidget {
 
   const HomePage({
     required this.onSignOut,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
-            style: TextButton.styleFrom(primary: Colors.white),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             onPressed: () => _handleSignOut(),
             child: const Text('Sign Out'),
           ),

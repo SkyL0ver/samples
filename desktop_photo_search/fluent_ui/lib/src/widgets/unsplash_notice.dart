@@ -8,13 +8,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../unsplash_access_key.dart';
 
-final _unsplashHomepage =
-    'https://unsplash.com/?utm_source=${Uri.encodeFull(unsplashAppName)}&utm_medium=referral';
-final _unsplashPrivacyPolicy =
-    'https://unsplash.com/privacy?utm_source=${Uri.encodeFull(unsplashAppName)}&utm_medium=referral';
+final _unsplashHomepage = Uri.parse(
+    'https://unsplash.com/?utm_source=${Uri.encodeFull(unsplashAppName)}&utm_medium=referral');
+final _unsplashPrivacyPolicy = Uri.parse(
+    'https://unsplash.com/privacy?utm_source=${Uri.encodeFull(unsplashAppName)}&utm_medium=referral');
 
 class UnsplashNotice extends StatefulWidget {
-  const UnsplashNotice({Key? key, required this.child}) : super(key: key);
+  const UnsplashNotice({super.key, required this.child});
   final Widget child;
 
   @override
@@ -27,7 +27,7 @@ class _UnsplashNoticeState extends State<UnsplashNotice> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showDialog(
           context: context,
           builder: (context) {
@@ -47,7 +47,7 @@ class _UnsplashNoticeState extends State<UnsplashNotice> {
 }
 
 class _UnsplashDialog extends StatelessWidget {
-  const _UnsplashDialog({Key? key, required this.accepted}) : super(key: key);
+  const _UnsplashDialog({required this.accepted});
   final Function accepted;
 
   @override
@@ -64,7 +64,7 @@ class _UnsplashDialog extends StatelessWidget {
                 text: 'Unsplash',
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    if (!await launch(_unsplashHomepage)) {
+                    if (!await launchUrl(_unsplashHomepage)) {
                       throw 'Could not launch $_unsplashHomepage';
                     }
                   },
@@ -81,7 +81,7 @@ class _UnsplashDialog extends StatelessWidget {
                 text: 'how Unsplash collects and uses data',
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    if (!await launch(_unsplashPrivacyPolicy)) {
+                    if (!await launchUrl(_unsplashPrivacyPolicy)) {
                       throw 'Could not launch $_unsplashPrivacyPolicy';
                     }
                   },

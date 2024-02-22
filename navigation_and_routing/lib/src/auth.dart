@@ -32,16 +32,16 @@ class BookstoreAuth extends ChangeNotifier {
 
   @override
   int get hashCode => _signedIn.hashCode;
-}
-
-class BookstoreAuthScope extends InheritedNotifier<BookstoreAuth> {
-  const BookstoreAuthScope({
-    required BookstoreAuth notifier,
-    required Widget child,
-    Key? key,
-  }) : super(key: key, notifier: notifier, child: child);
 
   static BookstoreAuth of(BuildContext context) => context
       .dependOnInheritedWidgetOfExactType<BookstoreAuthScope>()!
       .notifier!;
+}
+
+class BookstoreAuthScope extends InheritedNotifier<BookstoreAuth> {
+  const BookstoreAuthScope({
+    required super.notifier,
+    required super.child,
+    super.key,
+  });
 }

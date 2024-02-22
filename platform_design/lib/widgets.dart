@@ -9,25 +9,25 @@ import 'package:flutter/material.dart';
 /// A simple widget that builds different things on different platforms.
 class PlatformWidget extends StatelessWidget {
   const PlatformWidget({
-    Key? key,
+    super.key,
     required this.androidBuilder,
     required this.iosBuilder,
-  }) : super(key: key);
+  });
 
   final WidgetBuilder androidBuilder;
   final WidgetBuilder iosBuilder;
 
   @override
   Widget build(context) {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
-        return androidBuilder(context);
-      case TargetPlatform.iOS:
-        return iosBuilder(context);
-      default:
-        assert(false, 'Unexpected platform $defaultTargetPlatform');
-        return const SizedBox.shrink();
-    }
+    assert(
+        defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS,
+        'Unexpected platform $defaultTargetPlatform');
+    return switch (defaultTargetPlatform) {
+      TargetPlatform.android => androidBuilder(context),
+      TargetPlatform.iOS => iosBuilder(context),
+      _ => const SizedBox.shrink()
+    };
   }
 }
 
@@ -41,8 +41,8 @@ class PressableCard extends StatefulWidget {
     required this.color,
     required this.flattenAnimation,
     this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback? onPressed;
   final Color color;
@@ -141,8 +141,8 @@ class HeroAnimatingSongCard extends StatelessWidget {
     required this.color,
     required this.heroAnimation,
     this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String song;
   final Color color;
@@ -220,7 +220,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
 /// This is an example of a custom widget that an app developer might create for
 /// use on both iOS and Android as part of their brand's unique design.
 class SongPlaceholderTile extends StatelessWidget {
-  const SongPlaceholderTile({Key? key}) : super(key: key);
+  const SongPlaceholderTile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +231,7 @@ class SongPlaceholderTile extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              color: Theme.of(context).textTheme.bodyText2!.color,
+              color: Theme.of(context).textTheme.bodyMedium!.color,
               width: 130,
             ),
             const Padding(
@@ -244,27 +244,27 @@ class SongPlaceholderTile extends StatelessWidget {
                   Container(
                     height: 9,
                     margin: const EdgeInsets.only(right: 60),
-                    color: Theme.of(context).textTheme.bodyText2!.color,
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
                   ),
                   Container(
                     height: 9,
                     margin: const EdgeInsets.only(right: 20, top: 8),
-                    color: Theme.of(context).textTheme.bodyText2!.color,
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
                   ),
                   Container(
                     height: 9,
                     margin: const EdgeInsets.only(right: 40, top: 8),
-                    color: Theme.of(context).textTheme.bodyText2!.color,
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
                   ),
                   Container(
                     height: 9,
                     margin: const EdgeInsets.only(right: 80, top: 8),
-                    color: Theme.of(context).textTheme.bodyText2!.color,
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
                   ),
                   Container(
                     height: 9,
                     margin: const EdgeInsets.only(right: 50, top: 8),
-                    color: Theme.of(context).textTheme.bodyText2!.color,
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
                   ),
                 ],
               ),

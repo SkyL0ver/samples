@@ -20,7 +20,8 @@ void main() {
       // and add the incoming message to the StreamController used by the EventChannel
       // after decoding the message with codec used by the EventChannel.
       void emitValues(ByteData? event) {
-        ServicesBinding.instance?.defaultBinaryMessenger.handlePlatformMessage(
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .handlePlatformMessage(
           'eventChannelDemo',
           event,
           (reply) {},
@@ -29,7 +30,8 @@ void main() {
 
       // Register a mock for EventChannel. EventChannel under the hood uses
       // MethodChannel to listen and cancel the created stream.
-      ServicesBinding.instance?.defaultBinaryMessenger
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMessageHandler('eventChannelDemo', (message) async {
         // Decode the message into MethodCallHandler.
         final methodCall = standardMethod.decodeMethodCall(message);
@@ -57,15 +59,15 @@ void main() {
 
       // Check the values of axis. The value is rounded to 3 decimal places.
       expect(
-        find.text('x axis: ' + sensorValues[0].toStringAsFixed(3)),
+        find.text('x axis: ${sensorValues[0].toStringAsFixed(3)}'),
         findsOneWidget,
       );
       expect(
-        find.text('y axis: ' + sensorValues[1].toStringAsFixed(3)),
+        find.text('y axis: ${sensorValues[1].toStringAsFixed(3)}'),
         findsOneWidget,
       );
       expect(
-        find.text('z axis: ' + sensorValues[2].toStringAsFixed(3)),
+        find.text('z axis: ${sensorValues[2].toStringAsFixed(3)}'),
         findsOneWidget,
       );
     });

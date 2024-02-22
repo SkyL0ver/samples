@@ -3,12 +3,13 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_shopper/models/cart.dart';
 import 'package:provider_shopper/models/catalog.dart';
 
 class MyCatalog extends StatelessWidget {
-  const MyCatalog({Key? key}) : super(key: key);
+  const MyCatalog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class MyCatalog extends StatelessWidget {
 class _AddButton extends StatelessWidget {
   final Item item;
 
-  const _AddButton({required this.item, Key? key}) : super(key: key);
+  const _AddButton({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +76,12 @@ class _MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      title: Text('Catalog', style: Theme.of(context).textTheme.headline1),
+      title: Text('Catalog', style: Theme.of(context).textTheme.displayLarge),
       floating: true,
       actions: [
         IconButton(
           icon: const Icon(Icons.shopping_cart),
-          onPressed: () => Navigator.pushNamed(context, '/cart'),
+          onPressed: () => context.go('/catalog/cart'),
         ),
       ],
     );
@@ -90,7 +91,7 @@ class _MyAppBar extends StatelessWidget {
 class _MyListItem extends StatelessWidget {
   final int index;
 
-  const _MyListItem(this.index, {Key? key}) : super(key: key);
+  const _MyListItem(this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,7 @@ class _MyListItem extends StatelessWidget {
       // about any other change.
       (catalog) => catalog.getByPosition(index),
     );
-    var textTheme = Theme.of(context).textTheme.headline6;
+    var textTheme = Theme.of(context).textTheme.titleLarge;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

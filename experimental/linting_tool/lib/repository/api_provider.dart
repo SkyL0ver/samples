@@ -8,20 +8,20 @@ import 'package:linting_tool/model/rule.dart';
 import 'package:yaml/yaml.dart';
 
 class APIProvider {
-  final _baseURL = 'https://dart-lang.github.io/linter';
   final http.Client httpClient;
+
   APIProvider(this.httpClient);
 
   Future<List<Rule>> getRulesList() async {
-    final response =
-        await httpClient.get(Uri.parse('$_baseURL//lints/machine/rules.json'));
+    final response = await httpClient.get(Uri.parse(
+      'https://raw.githubusercontent.com/dart-lang/site-www/main/src/_data/linter_rules.json',
+    ));
 
     if (response.statusCode == 200) {
-      List<Rule> rulesList = [];
       final data = json.decode(response.body) as List;
-      for (var item in data) {
-        rulesList.add(Rule.fromJson(item as Map<String, dynamic>));
-      }
+      final rulesList = [
+        for (final item in data) Rule.fromJson(item as Map<String, dynamic>)
+      ];
       return rulesList;
     } else {
       throw Exception('Failed to load rules');
@@ -30,7 +30,7 @@ class APIProvider {
 
   Future<YamlMap> getTemplateFile() async {
     final response = await httpClient.get(Uri.parse(
-        'https://raw.githubusercontent.com/flutter/flutter/master/packages/flutter_tools/templates/app_shared/analysis_options.yaml.tmpl'));
+        'https://raw.githubusercontent.com/flutter/flutter/main/packages/flutter_tools/templates/app_shared/analysis_options.yaml.tmpl'));
     if (response.statusCode == 200) {
       return loadYaml(response.body) as YamlMap;
     } else {

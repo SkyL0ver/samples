@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:ui';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class CarouselDemo extends StatelessWidget {
-  CarouselDemo({Key? key}) : super(key: key);
-  static String routeName = '/misc/carousel';
+  CarouselDemo({super.key});
+  static String routeName = 'misc/carousel';
 
   static const List<String> fileNames = [
     'assets/eat_cape_town_sm.jpg',
@@ -46,10 +46,10 @@ typedef OnCurrentItemChangedCallback = void Function(int currentItem);
 class Carousel extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
 
-  const Carousel({Key? key, required this.itemBuilder}) : super(key: key);
+  const Carousel({super.key, required this.itemBuilder});
 
   @override
-  _CarouselState createState() => _CarouselState();
+  State<Carousel> createState() => _CarouselState();
 }
 
 class _CarouselState extends State<Carousel> {
@@ -80,8 +80,8 @@ class _CarouselState extends State<Carousel> {
       controller: _controller,
       scrollBehavior: ScrollConfiguration.of(context).copyWith(
         dragDevices: {
-          PointerDeviceKind.touch,
-          PointerDeviceKind.mouse,
+          ui.PointerDeviceKind.touch,
+          ui.PointerDeviceKind.mouse,
         },
       ),
       itemBuilder: (context, index) => AnimatedBuilder(

@@ -16,14 +16,14 @@ class RulesPage extends StatelessWidget {
 
   const RulesPage({
     required this.selectedProfileIndex,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final isDesktop = isDisplayLarge(context);
     final isTablet = isDisplayMedium(context);
-    var textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
     final startPadding = isTablet
         ? 60.0
         : isDesktop
@@ -41,8 +41,8 @@ class RulesPage extends StatelessWidget {
               .read<ProfilesStore>()
               .savedProfiles[selectedProfileIndex]
               .name,
-          style: textTheme.subtitle2!.copyWith(
-            color: textTheme.bodyText1!.color,
+          style: textTheme.titleSmall!.copyWith(
+            color: textTheme.bodyLarge!.color,
           ),
         ),
         leading: Padding(
@@ -85,7 +85,7 @@ class RulesPage extends StatelessWidget {
                           itemCount: profile.rules.length,
                           cacheExtent: 5,
                           itemBuilder: (context, index) {
-                            /// Show righ-click context menu to delete rule.
+                            /// Show right-click context menu to delete rule.
                             return ContextMenuRegion(
                               contextMenu: GenericContextMenu(
                                 buttonConfigs: [
